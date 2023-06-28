@@ -2,7 +2,7 @@
 
 As of today I start this project. I decided to write an SRS and follow it in sprints until project completion. 
 
-Please see below the my SRS:
+Please see below my SRS for this Project:
 
 # Software Requirements Specification (SRS)
 
