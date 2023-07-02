@@ -38,6 +38,16 @@ INTERNAL_IPS = ["127.0.0.1"]
 
 WSGI_APPLICATION = "tracker.wsgi.application"
 
+
+# ==============================================================================
+# ACCOUNTS APP
+# ==============================================================================
+
+AUTH_USER_MODEL = "accounts.CustomUser"
+LOGIN_REDIRECT_URL = "accounts:success_login"
+LOGOUT_REDIRECT_URL = "accounts:success_logout"
+
+
 # ==============================================================================
 # MIDDLEWARE SETTINGS
 # ==============================================================================

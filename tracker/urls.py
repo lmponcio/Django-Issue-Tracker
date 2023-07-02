@@ -21,6 +21,8 @@ from .settings.base import DEBUG
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("apps/accounts/", include("django.contrib.auth.urls")),
+    path("apps/accounts/", include("tracker.apps.accounts.urls")),
 ]
 
 if DEBUG:
