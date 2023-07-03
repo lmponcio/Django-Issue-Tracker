@@ -23,13 +23,3 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
     template_name = "accounts/profile.html"
     context_object_name = "user"
     slug_field = "username"
-
-
-# to be removed (testing)
-def success_login(request):
-    return HttpResponse("Login success!, Hello")
-
-
-# to be removed (testing)
-def success_logout(request):
-    return HttpResponse("Logout success!, Bye")
