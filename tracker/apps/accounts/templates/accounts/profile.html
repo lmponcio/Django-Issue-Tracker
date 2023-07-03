@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Your profile, {{user.username}}</h2>
+    <p>{{user.email}}</p>
+
+    <!-- 
+        reverse lookup with foreign key 
+        
+        I will list all the tickets linked to the user below
+    -->
+    <ul>
+    {%comment%}        
+    {% for ticket in user.tickets_set.all %}
+        <li>{{ticket.title}}</li>
+    {% endfor %}
+    {%endcomment%}
+    </ul>
+{% endblock %}

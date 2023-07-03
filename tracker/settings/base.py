@@ -20,13 +20,13 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="127.0.0.1,localhost", cast=Csv(
 
 
 INSTALLED_APPS = [
+    "tracker.apps.accounts",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "tracker.apps.accounts",
     "tracker.apps.core",
 ]
 
@@ -37,6 +37,16 @@ ROOT_URLCONF = "tracker.urls"
 INTERNAL_IPS = ["127.0.0.1"]
 
 WSGI_APPLICATION = "tracker.wsgi.application"
+
+
+# ==============================================================================
+# ACCOUNTS APP
+# ==============================================================================
+
+AUTH_USER_MODEL = "accounts.CustomUser"
+LOGIN_REDIRECT_URL = "core:dashboard"
+LOGOUT_REDIRECT_URL = "core:dashboard"
+
 
 # ==============================================================================
 # MIDDLEWARE SETTINGS

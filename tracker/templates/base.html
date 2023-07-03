@@ -1,0 +1,30 @@
+{% load static %}
+
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Issue Tracker</title>
+        <meta name="description" content="">
+        <meta name="author" content="Martin">
+        <link href="https://fonts.googleapis.com/css?family=Manjari&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+        <!-- block called "stylesheets" will be inserted here" (style specific to the application)-->
+        {% block stylesheets %}{% endblock %}
+    </head>
+
+    <body>
+        <header>
+            <div id="header-text">
+                <a id="header-link" href="{% url 'core:dashboard' %}">
+                    <h1>Issue Tracker</h1>
+                </a>
+            </div>
+            <!-- include nav here -->
+            {% include './nav.html' %}
+        </header>
+        <!-- block called "content" will be inserted here" -->
+        {% block content %}{% endblock %}
+    </body>
+</html>

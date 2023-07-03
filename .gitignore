@@ -132,3 +132,6 @@ dmypy.json
 .idea/
 
 node_modules/
+
+# https://stackoverflow.com/questions/28035119/should-i-be-adding-the-django-migration-files-in-the-gitignore-file
+*migrations/
