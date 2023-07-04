@@ -133,5 +133,6 @@ dmypy.json
 
 node_modules/
 
+# Migrations will be in remote repository - follow Two Scoops of Django Book (section 6.3.4) and discussion below
 # https://stackoverflow.com/questions/28035119/should-i-be-adding-the-django-migration-files-in-the-gitignore-file
-*migrations/
+#*migrations/
