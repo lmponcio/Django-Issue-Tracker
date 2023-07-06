@@ -1,22 +1,39 @@
 from django.db import models
 from tracker.apps.accounts.models import CustomUser
+from django.utils.timezone import now
 
 
-class TicketStatus(models.Model):
+class TimeStampedModel(models.Model):
+    """
+    An abstract base class model that provides self-
+    updating ``created`` and ``modified`` fields.
+    """
+
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class TicketStatus(TimeStampedModel):
     status = models.CharField(max_length=20, unique=True)
     description = models.CharField(max_length=200)
 
 
-class Ticket(models.Model):
+class Ticket(TimeStampedModel):
     author = models.ForeignKey(CustomUser, on_delete=models.PROTECT, related_name="created_tickets")
     status = models.ForeignKey(TicketStatus, on_delete=models.PROTECT)
     assignees = models.ManyToManyField(CustomUser, blank=True, related_name="assigned_tickets")
     title = models.CharField(max_length=200)
     pub_date = models.DateTimeField()
     content = models.TextField(max_length=2000)
+    # TODO:
+    # add close_date (blank=True, null=True)
+    # add close_user (foreign key)
 
 
-class TicketComment(models.Model):
+class TicketComment(TimeStampedModel):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     author = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
     pub_date = models.DateTimeField()
