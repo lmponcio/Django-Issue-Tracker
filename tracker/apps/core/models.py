@@ -27,9 +27,10 @@ class Ticket(TimeStampedModel):
     assignees = models.ManyToManyField(CustomUser, blank=True, related_name="assigned_tickets")
     title = models.CharField(max_length=200)
     content = models.TextField(max_length=2000)
-    # TODO:
-    # add close_date (blank=True, null=True)
-    # add close_user (foreign key)
+    closed_by = models.ForeignKey(
+        CustomUser, on_delete=models.PROTECT, blank=True, null=True, related_name="closed_tickets"
+    )
+    closed = models.DateTimeField(null=True, blank=True, default=None)
 
 
 class TicketComment(TimeStampedModel):
