@@ -1,6 +1,5 @@
 from django.db import models
 from tracker.apps.accounts.models import CustomUser
-from django.utils.timezone import now
 
 
 class TimeStampedModel(models.Model):
@@ -17,8 +16,11 @@ class TimeStampedModel(models.Model):
 
 
 class TicketStatus(TimeStampedModel):
-    status = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=20, unique=True)
     description = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
 
 
 class Ticket(TimeStampedModel):
@@ -31,6 +33,9 @@ class Ticket(TimeStampedModel):
         CustomUser, on_delete=models.PROTECT, blank=True, null=True, related_name="closed_tickets"
     )
     closed = models.DateTimeField(null=True, blank=True, default=None)
+
+    def __str__(self):
+        return self.title
 
 
 class TicketComment(TimeStampedModel):
