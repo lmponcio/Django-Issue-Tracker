@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Ticket Detail</h2>
+
+<div id="ticket-detail">
+    {% if ticket %}
+            <p>{{ticket.title}}</p>
+            <p>{{ticket.content}}</p>
+    {% else %}
+        <p>No Tickets Found</p>
+    {% endif %}
+</div>
+<div id="ticket-comments">
+    {% for comment in ticket.ticketcomment_set.all %}
+        <li>{{comment.content}}</li>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
