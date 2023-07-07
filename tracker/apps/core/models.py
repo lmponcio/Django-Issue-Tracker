@@ -1,3 +1,5 @@
+from datetime import timedelta
+from django.utils import timezone
 from django.db import models
 from tracker.apps.accounts.models import CustomUser
 
@@ -42,6 +44,24 @@ class Ticket(TimeStampedModel):
         CustomUser, on_delete=models.PROTECT, blank=True, null=True, related_name="closed_tickets"
     )
     closed = models.DateTimeField(null=True, blank=True, default=None)
+
+    @staticmethod
+    def get_this_week_stats():
+        some_day_last_week = timezone.now().date() - timedelta(days=7)
+        monday_of_last_week = some_day_last_week - timedelta(days=(some_day_last_week.isocalendar()[2] - 1))
+        sunday_of_this_week = monday_of_last_week + timedelta(days=6)
+        return {
+            "opened": Ticket.objects.filter(created__gte=sunday_of_this_week),
+            "closed": Ticket.objects.filter(closed__gte=sunday_of_this_week),
+        }
+
+    @staticmethod
+    def get_average_closing_time():
+        pass
+
+    @staticmethod
+    def get_twelve_day_team_activity():
+        pass
 
     def __str__(self):
         return self.title

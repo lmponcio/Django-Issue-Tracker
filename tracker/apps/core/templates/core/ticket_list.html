@@ -4,7 +4,7 @@
 <h2>All Tickets</h2>
 
 <div id="all-tickets">
-    {% if object_list %}
+    {% if ticket_list %}
         {% for ticket in ticket_list %}
             <p>{{ticket.title}}</p>
         {% endfor %}
