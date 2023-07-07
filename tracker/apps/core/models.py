@@ -23,9 +23,18 @@ class TicketStatus(TimeStampedModel):
         return self.name
 
 
+class TicketLabel(TimeStampedModel):
+    name = models.CharField(max_length=20, unique=True)
+    description = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+
 class Ticket(TimeStampedModel):
     author = models.ForeignKey(CustomUser, on_delete=models.PROTECT, related_name="created_tickets")
     status = models.ForeignKey(TicketStatus, on_delete=models.PROTECT)
+    labels = models.ManyToManyField(CustomUser, blank=True, related_name="labeled_tickets")
     assignees = models.ManyToManyField(CustomUser, blank=True, related_name="assigned_tickets")
     title = models.CharField(max_length=200)
     content = models.TextField(max_length=2000)
