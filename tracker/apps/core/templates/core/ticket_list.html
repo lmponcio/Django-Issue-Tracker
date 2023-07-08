@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>All Tickets</h2>
+
+<div id="all-tickets">
+    {% if ticket_list %}
+        {% for ticket in ticket_list %}
+            <p>{{ticket.title}}</p>
+        {% endfor %}
+    {% else %}
+        <p>No Tickets in Database</p>
+    {% endif %}
+</div>
+
+{% endblock %}
