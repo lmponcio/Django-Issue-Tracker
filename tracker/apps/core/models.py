@@ -47,7 +47,7 @@ class Ticket(TimeStampedModel):
 
     @staticmethod
     def get_this_week_stats():
-        some_day_last_week = timezone.now().date() - timedelta(days=7)
+        some_day_last_week = timezone.now() - timedelta(days=7)
         monday_of_last_week = some_day_last_week - timedelta(days=(some_day_last_week.isocalendar()[2] - 1))
         sunday_of_this_week = monday_of_last_week + timedelta(days=6)
         return {
