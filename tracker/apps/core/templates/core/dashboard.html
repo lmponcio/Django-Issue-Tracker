@@ -24,3 +24,26 @@ Amount:{{ticket_list_open|slice:":4"|length}}
 <h5>this week stats</h5>
 This week opened: {{ticket_this_week.opened|length}} <br>
 This week closed: {{ticket_this_week.closed|length}}
+
+<p>---</p>
+<h5>Average closing time</h5>
+Average: {{ticket_avg_closing_time}}
+
+<p>---</p>
+<h5>12 days</h5>
+Opened: 
+<br>
+{% for ticket in ticket_twelve_days_act.opened %}
+---{{ticket.pub_date}} <br>
+{% endfor %}
+Closed:
+<br>
+{% for ticket in ticket_twelve_days_act.closed %}
+---{{ticket.close_date}} <br>
+{% endfor %}
+
+<p>---</p>
+<h5>User with open tickets</h5>
+{% for user in users_with_open_tickets %}
+---{{user.username}} <br>
+{% endfor %}
