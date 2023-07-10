@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Ticket, TicketStatus, TicketLabel
 from tracker.apps.accounts.models import CustomUser
 
@@ -30,3 +31,13 @@ class DashboardView(TicketListView):
         # TODO:
         ## Add users with open tickets
         return context
+
+
+class TicketCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Ticket
+    fields = ["assignees", "title", "content"]
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.status = TicketStatus.objects.get(name="Open")
+        return super().form_valid(form)
