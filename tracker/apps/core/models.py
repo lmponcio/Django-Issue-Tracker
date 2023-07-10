@@ -31,6 +31,18 @@ class TicketLabel(TimeStampedModel):
     name = models.CharField(max_length=20, unique=True)
     description = models.CharField(max_length=200)
 
+    @staticmethod
+    def get_amounts_in_open_tickets():
+        all_open_tickets = Ticket.objects.filter(status__name="Open").select_related()
+        all_labels = {}
+        for ticket in all_open_tickets:
+            for label in ticket.labels.all():
+                if label.name in all_labels:
+                    all_labels[label.name] += 1
+                else:
+                    all_labels[label.name] = 1
+        return all_labels
+
     def __str__(self):
         return self.name
 
@@ -38,7 +50,7 @@ class TicketLabel(TimeStampedModel):
 class Ticket(TimeStampedModel):
     author = models.ForeignKey(CustomUser, on_delete=models.PROTECT, related_name="created_tickets")
     status = models.ForeignKey(TicketStatus, on_delete=models.PROTECT)
-    labels = models.ManyToManyField(CustomUser, blank=True, related_name="labeled_tickets")
+    labels = models.ManyToManyField(TicketLabel, blank=True, related_name="labeled_tickets")
     assignees = models.ManyToManyField(CustomUser, blank=True, related_name="assigned_tickets")
     title = models.CharField(max_length=200)
     content = models.TextField(max_length=2000)
@@ -46,33 +58,33 @@ class Ticket(TimeStampedModel):
         CustomUser, on_delete=models.PROTECT, blank=True, null=True, related_name="closed_tickets"
     )
     progress = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
-    # Publication date allows plan publishing in the future (create without publishing)
+    # pub_date allows to plan publishing in the future (create without publishing)
     pub_date = models.DateTimeField(null=True, blank=True, default=None)
     close_date = models.DateTimeField(null=True, blank=True, default=None)
 
-    @staticmethod
-    def get_this_week_stats():
+    @classmethod
+    def get_this_week_stats(cls):
         """Gets published and closed issues since last Sunday"""
         some_day_last_week = timezone.now() - timedelta(days=7)
         monday_of_last_week = some_day_last_week - timedelta(days=(some_day_last_week.isocalendar()[2] - 1))
         sunday_of_this_week = monday_of_last_week + timedelta(days=6)
         return {
-            "opened": Ticket.objects.filter(pub_date__gte=sunday_of_this_week),
-            "closed": Ticket.objects.filter(close_date__gte=sunday_of_this_week),
+            "opened": cls.objects.filter(pub_date__gte=sunday_of_this_week),
+            "closed": cls.objects.filter(close_date__gte=sunday_of_this_week),
         }
 
-    @staticmethod
-    def get_avg_closing_time():
-        finished_tickets = Ticket.objects.filter(pub_date__isnull=False).filter(close_date__isnull=False)
+    @classmethod
+    def get_avg_closing_time(cls):
+        finished_tickets = cls.objects.filter(pub_date__isnull=False).filter(close_date__isnull=False)
         return finished_tickets.aggregate(avg_time=Avg(F("close_date") - F("pub_date")))["avg_time"]
 
-    @staticmethod
-    def get_twelve_days_activity():
+    @classmethod
+    def get_twelve_days_activity(cls):
         activity = {}
         final_date = timezone.now()
         start_date = final_date - timedelta(days=12)
-        activity["opened"] = Ticket.objects.filter(pub_date__range=[start_date, final_date]).select_related()
-        activity["closed"] = Ticket.objects.filter(close_date__range=[start_date, final_date]).select_related()
+        activity["opened"] = cls.objects.filter(pub_date__range=[start_date, final_date]).select_related()
+        activity["closed"] = cls.objects.filter(close_date__range=[start_date, final_date]).select_related()
         return activity
 
     def __str__(self):

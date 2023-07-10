@@ -43,7 +43,18 @@ Closed:
 {% endfor %}
 
 <p>---</p>
-<h5>User with open tickets</h5>
+<h5>Label amounts</h5>
+{{label_amounts}}
+
+
+<p>---</p>
+<h5>Users amount</h5>
+{{user_amount}}
+<p>---</p>
+<h5>Users with open tickets</h5>
+{{user_list_with_assignments}}
+
+<!-- <h5>User with open tickets</h5>
 {% for user in users_with_open_tickets %}
 ---{{user.username}} <br>
-{% endfor %}
+{% endfor %}  -->
