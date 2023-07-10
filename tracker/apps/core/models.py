@@ -31,6 +31,20 @@ class TicketLabel(TimeStampedModel):
     name = models.CharField(max_length=20, unique=True)
     description = models.CharField(max_length=200)
 
+    @staticmethod
+    def get_amounts_in_open_tickets():
+        all_open_tickets = Ticket.objects.filter(status__name="Open").select_related()
+        all_labels = {}
+        for ticket in all_open_tickets:
+            # print(ticket.title)
+            for label in ticket.labels.all():
+                if label.name in all_labels:
+                    all_labels[label.name] += 1
+                else:
+                    all_labels[label.name] = 1
+                # print("   -", label)
+        return all_labels
+
     def __str__(self):
         return self.name
 
@@ -38,7 +52,7 @@ class TicketLabel(TimeStampedModel):
 class Ticket(TimeStampedModel):
     author = models.ForeignKey(CustomUser, on_delete=models.PROTECT, related_name="created_tickets")
     status = models.ForeignKey(TicketStatus, on_delete=models.PROTECT)
-    labels = models.ManyToManyField(CustomUser, blank=True, related_name="labeled_tickets")
+    labels = models.ManyToManyField(TicketLabel, blank=True, related_name="labeled_tickets")
     assignees = models.ManyToManyField(CustomUser, blank=True, related_name="assigned_tickets")
     title = models.CharField(max_length=200)
     content = models.TextField(max_length=2000)
@@ -46,7 +60,7 @@ class Ticket(TimeStampedModel):
         CustomUser, on_delete=models.PROTECT, blank=True, null=True, related_name="closed_tickets"
     )
     progress = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
-    # Publication date allows plan publishing in the future (create without publishing)
+    # pub_date allows to plan publishing in the future (create without publishing)
     pub_date = models.DateTimeField(null=True, blank=True, default=None)
     close_date = models.DateTimeField(null=True, blank=True, default=None)
 
