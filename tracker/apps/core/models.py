@@ -1,6 +1,7 @@
 from datetime import timedelta
 from django.utils import timezone
 from django.db import models
+from django.urls import reverse
 from django.db.models import F, Avg
 from django.core.validators import MinValueValidator, MaxValueValidator
 from tracker.apps.accounts.models import CustomUser
@@ -86,6 +87,9 @@ class Ticket(TimeStampedModel):
         activity["opened"] = cls.objects.filter(pub_date__range=[start_date, final_date]).select_related()
         activity["closed"] = cls.objects.filter(close_date__range=[start_date, final_date]).select_related()
         return activity
+
+    def get_absolute_url(self):
+        return reverse("core:ticket-detail", kwargs={"pk": self.id})
 
     def __str__(self):
         return self.title

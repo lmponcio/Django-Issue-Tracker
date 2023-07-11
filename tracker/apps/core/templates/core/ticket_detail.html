@@ -11,10 +11,44 @@
         <p>No Tickets Found</p>
     {% endif %}
 </div>
+<!-- COMMENTS  -->
 <div id="ticket-comments">
-    {% for comment in ticket.ticketcomment_set.all %}
-        <li>{{comment.content}}</li>
-    {% endfor %}
+    {% if comments %}
+    <strong class="text-secondary">{{ object.number_of_comments }} Comment{{ object.number_of_comments|pluralize }}</strong>
+    <hr> <!-- horizontal line  --> 
+    <ul>
+        {% for comment in comments %}
+        <li>           
+            <div>
+                <span>
+                    <strong class="text-info">{{ comment.author }} </strong>
+                    <small class="text-muted">{{ comment.date_posted }}</small>
+                </span>
+                <p>
+                    {{ comment.content|safe }}
+                </p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <strong class="text-secondary">No comments yet...</strong>
+    {% endif %}
+    
+    <h2>Comment Below:</h2>
+    {% if user.is_authenticated %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ comment_form }}
+            <button type="submit">Add comment <i class="fas fa-comments"></i></button>
+        </div>
+    </form>
+    {% else %}
+    <a href="{% url 'login' %}?next={{request.path}}">Log in to add a comment!</a><br>
+    {% endif %}
+    
+    
 </div>
 
 
