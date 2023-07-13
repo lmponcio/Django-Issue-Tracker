@@ -43,7 +43,8 @@ class TicketLabel(TimeStampedModel):
                     all_labels[label.name] += 1
                 else:
                     all_labels[label.name] = 1
-        return all_labels
+        print(all_labels)
+        return {"tags": list(all_labels.keys()), "amounts": list(all_labels.values())}
 
     def __str__(self):
         return self.name

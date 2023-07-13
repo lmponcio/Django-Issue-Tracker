@@ -566,10 +566,12 @@
       document.getElementById('marketing-overview-legend').innerHTML = marketingOverviewDark.generateLegend();
     }
     if ($("#doughnutChart").length) {
+      const labelInOpen = JSON.parse(document.getElementById("label_in_open").textContent);
       var doughnutChartCanvas = $("#doughnutChart").get(0).getContext("2d");
       var doughnutPieData = {
         datasets: [{
-          data: [40, 20, 30, 10],
+          data: labelInOpen.amounts,
+          // data: [40, 20, 30, 10],
           backgroundColor: [
             "#1F3BB3",
             "#FDD0C7",
@@ -583,14 +585,14 @@
             "#81DADA"
           ],
         }],
-
         // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-          'Total',
-          'Net',
-          'Gross',
-          'AVG',
-        ]
+        // labels: [
+        //   'Documentation',
+        //   'CSS',
+        //   'HTML',
+        //   'Application',
+        // ]
+        labels: labelInOpen.tags
       };
       var doughnutPieOptions = {
         cutoutPercentage: 50,
