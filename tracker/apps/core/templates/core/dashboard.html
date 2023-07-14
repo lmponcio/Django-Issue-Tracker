@@ -1,3 +1,245 @@
+{% extends 'base.html' %}
+{% load core_extras %}
+
+{% block content %}
+{{ ticket_twelve_days_act|json_script:"ticket_twelve_days_act" }}
+{{ label_in_open|json_script:"label_in_open" }}
+<script>console.log("script for creating the global variables done")  </script>
+<div class="content-wrapper">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="home-tab">
+          <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+          </div>
+          <div class="tab-content tab-content-basic">
+            <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview"> 
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="statistics-details d-flex align-items-center justify-content-between">
+                    <div>
+                      <p class="statistics-title">Open Issues</p>
+                      <h3 class="rate-percentage">{{ticket_list_open|length}}</h3>
+                      <!-- <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>-0.5%</span></p> -->
+                    </div>
+                    <div>
+                      <p class="statistics-title">Opened This Week</p>
+                      <h3 class="rate-percentage">{{ticket_this_week.opened|length}}</h3>
+                      <!-- <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+0.1%</span></p> -->
+                    </div>
+                    <div>
+                      <p class="statistics-title">Closed This Week</p>
+                      <h3 class="rate-percentage">{{ticket_this_week.closed|length}}</h3>
+                      <!-- <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>68.8</span></p> -->
+                    </div>
+                    <div class="d-none d-md-block">
+                      <p class="statistics-title">Time Since Last Closed Issue</p>
+                      <h3 class="rate-percentage">{{ticket_list_closed.1.close_date|custom_timesince}}</h3>
+                      <!-- <h3 class="rate-percentage">{{ticket_list_closed.1.close_date|timesince}}</h3> -->
+                      <!-- <p class="text-success d-flex"><i class="mdi mdi-menu-down"></i><span>+0.8%</span></p> -->
+                    </div>
+                    <div class="d-none d-md-block">
+                      <p class="statistics-title">Avg. Closing Time</p>
+                      <h3 class="rate-percentage">{{ticket_avg_closing_time|duration}}</h3>
+                      <!-- <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>68.8</span></p> -->
+                    </div>
+                    <div class="d-none d-md-block">
+                      <p class="statistics-title">Team Size</p>
+                      <h3 class="rate-percentage">{{user_amount}}</h3>
+                      <!-- <p class="text-success d-flex"><i class="mdi mdi-menu-down"></i><span>+0.8%</span></p> -->
+                    </div>
+                  </div>
+                </div>
+              </div> 
+              <div class="row">
+                <div class="col-lg-8 d-flex flex-column">
+                  <div class="row flex-grow">
+                    <div class="col-12 grid-margin stretch-card">
+                      <div class="card card-rounded">
+                        <div class="card-body">
+                          <div class="d-sm-flex justify-content-between align-items-start">
+                            <div>
+                              <h4 class="card-title card-title-dash">Team Activity</h4>
+                             <p class="card-subtitle card-subtitle-dash">Find below the amounts of open/closed issues and comments in the last 12 days</p>
+                            </div>
+                            <div>
+                              <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> This month </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                  <h6 class="dropdown-header">Settings</h6>
+                                  <a class="dropdown-item" href="#">Action</a>
+                                  <a class="dropdown-item" href="#">Another action</a>
+                                  <a class="dropdown-item" href="#">Something else here</a>
+                                  <div class="dropdown-divider"></div>
+                                  <a class="dropdown-item" href="#">Separated link</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="d-sm-flex align-items-center mt-1 justify-content-between">
+                            <div class="d-sm-flex align-items-center mt-4 justify-content-between"><h2 class="me-2 fw-bold">{{ticket_twelve_days_act.total}}</h2><h4 class="me-2">Actions in the last</h4><h4 class="text-success">12 days</h4></div>
+                            <div class="me-3"><div id="marketing-overview-legend"></div></div>
+                          </div>
+                          <div class="chartjs-bar-wrapper mt-3">
+                            <canvas id="marketingOverview"></canvas>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row flex-grow">
+                    <div class="col-12 grid-margin stretch-card">
+                      <div class="card card-rounded">
+                        <div class="card-body">
+                          <div class="d-sm-flex justify-content-between align-items-start">
+                            <div>
+                              <h4 class="card-title card-title-dash">Team Workload</h4>
+                             <p class="card-subtitle card-subtitle-dash">Tasks the team is currently working on</p>
+                            </div>
+                            <div>
+                              <button class="btn btn-primary btn-lg text-white mb-0 me-0" type="button"><i class="mdi mdi-account-plus"></i>Add new member</button>
+                            </div>
+                          </div>
+                          <div class="table-responsive  mt-1">
+                            <table class="table select-table">
+                              <thead>
+                                <tr>
+                                  <th>Team Member</th>
+                                  <th>Issue</th>
+                                  <th>Progress</th>
+                                  <th>Status</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for user in user_list_with_assignments|slice:":5" %}
+                                <tr>
+
+                                  <td>
+                                    <div class="d-flex ">
+                                      <img src="images/faces/face1.jpg" alt="">
+                                      <div>
+                                        <!-- user name (0 is the position in the list where the name is located)-->
+                                        <h6>{{user.0}}</h6>
+                                        <p>Lead Developer</p>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <!-- issue title (1 is the position in the tuple where the corresponding ticket is located)-->
+                                    <h6>{{user.1.title}}</h6>
+                                    <p>{{user.1.content|slice:":25"}} ...</p>
+                                  </td>
+                                  <td>
+                                    <div>
+                                      <div class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
+                                        <!-- PROGRESS NUMBER HERE (ALWAYS GREEN!) -->
+                                        <p class="text-success">{{ user.1.progress }}%</p>
+                                      </div>
+                                      {% if user.1.stage == "Pending" %}
+                                      <div class="progress progress-md">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: {{ user.1.progress }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>                                        
+                                      {% elif user.1.stage == "In Progress" %}
+                                      <div class="progress progress-md">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{ user.1.progress }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                      {% elif user.1.stage == "Close to Completion" %}
+                                      <div class="progress progress-md">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ user.1.progress }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                      {% endif %}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    {% if user.1.stage == "Pending" %}
+                                      <div class="badge badge-opacity-danger">Pending</div>
+                                      {% elif user.1.stage == "In Progress" %}
+                                      <div class="badge badge-opacity-warning">In progress</div>  
+                                      {% elif user.1.stage == "Close to Completion" %}
+                                        <div class="badge badge-opacity-success">Close to Completion</div>
+                                    {% endif %}
+                                  </td>
+                                </tr>
+                                {% endfor %} 
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 d-flex flex-column">
+                  <div class="row flex-grow">
+                    <div class="col-12 grid-margin stretch-card">
+                      <div class="card card-rounded">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-lg-12">
+                              <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="card-title card-title-dash">Open Issues</h4>
+                                <div class="add-items d-flex mb-0">
+                                  <!-- <input type="text" class="form-control todo-list-input" placeholder="What do you need to do today?"> -->
+                                  <button class="add btn btn-icons btn-rounded btn-primary todo-list-add-btn text-white me-0 pl-12p"><i class="mdi mdi-plus"></i></button>
+                                </div>
+                              </div>
+                              <div class="list-wrapper">
+                                <ul class="todo-list todo-list-rounded">
+                                  {% for ticket in ticket_list_open|slice:":4" %}
+                                    <li class="d-block">
+                                      <div class="form-check w-100">
+                                        <label class="form-check-label">
+                                          <input class="checkbox" type="checkbox"> {{ticket.title}}<i class="input-helper rounded"></i>
+                                        </label>
+                                        <div class="d-flex mt-2">
+                                          <div class="ps-4 text-small me-3">Opened on   {{ticket.pub_date}}</div>
+                                          {% if ticket.stage == "Pending" %}
+                                          <div class="badge badge-opacity-danger me-3">Pending</div>
+                                          {% elif ticket.stage == "In Progress" %}
+                                          <div class="badge badge-opacity-warning me-3">In progress</div>
+                                          {% elif ticket.stage == "Close to Completion" %}
+                                          <div class="badge badge-opacity-success me-3">Close to Completion</div>
+                                          {%endif%}
+                                        </div>
+                                      </div>
+                                    </li>
+                                  {% endfor %}                                  
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row flex-grow">
+                    <div class="col-12 grid-margin stretch-card">
+                      <div class="card card-rounded">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-lg-12">
+                              <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="card-title card-title-dash">Labels in Open Issues</h4>
+                              </div>
+                              <canvas class="my-auto" id="doughnutChart" height="200"></canvas>
+                              <div id="doughnut-chart-legend" class="mt-5 text-center"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% comment block %}
 <h5>All tickets</h5>
 {{ticket_list}}
 <p></p>
@@ -53,8 +295,8 @@ Closed:
 <p>---</p>
 <h5>Users with open tickets</h5>
 {{user_list_with_assignments}}
-
 <!-- <h5>User with open tickets</h5>
-{% for user in users_with_open_tickets %}
----{{user.username}} <br>
-{% endfor %}  -->
+    {% for user in users_with_open_tickets %}
+    ---{{user.username}} <br>
+    {% endfor %}  -->
+{% endcomment %}

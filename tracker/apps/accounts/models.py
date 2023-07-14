@@ -8,12 +8,12 @@ class CustomUser(AbstractUser):
 
     @classmethod
     def get_users_with_assignments(cls):
-        uwa = {}
+        uwa = []
         all = cls.objects.all().select_related()
         for user in all:
             tickets = user.assigned_tickets.filter(status__name="Open").order_by("-pub_date")
             if tickets:
-                uwa[user.username] = tickets
+                uwa.append((user, tickets[0]))
         return uwa
 
     def __str__(self):

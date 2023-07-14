@@ -43,7 +43,7 @@ class DashboardView(TicketListView):
         context["ticket_this_week"] = Ticket.get_this_week_stats()
         context["ticket_avg_closing_time"] = Ticket.get_avg_closing_time()
         context["ticket_twelve_days_act"] = Ticket.get_twelve_days_activity()
-        context["label_amounts"] = TicketLabel.get_amounts_in_open_tickets()
+        context["label_in_open"] = TicketLabel.get_amounts_in_open_tickets()
         context["user_amount"] = CustomUser.objects.count()
         context["user_list_with_assignments"] = CustomUser.get_users_with_assignments()
         # TODO:

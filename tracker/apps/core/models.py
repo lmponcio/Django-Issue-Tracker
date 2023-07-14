@@ -1,3 +1,4 @@
+import json
 from datetime import timedelta
 from django.utils import timezone
 from django.db import models
@@ -42,7 +43,8 @@ class TicketLabel(TimeStampedModel):
                     all_labels[label.name] += 1
                 else:
                     all_labels[label.name] = 1
-        return all_labels
+        print(all_labels)
+        return {"tags": list(all_labels.keys()), "amounts": list(all_labels.values())}
 
     def __str__(self):
         return self.name
@@ -77,16 +79,55 @@ class Ticket(TimeStampedModel):
     @classmethod
     def get_avg_closing_time(cls):
         finished_tickets = cls.objects.filter(pub_date__isnull=False).filter(close_date__isnull=False)
-        return finished_tickets.aggregate(avg_time=Avg(F("close_date") - F("pub_date")))["avg_time"]
+        avg_time = finished_tickets.aggregate(avg_time=Avg(F("close_date") - F("pub_date")))["avg_time"]
+        return avg_time
 
     @classmethod
     def get_twelve_days_activity(cls):
-        activity = {}
+        """Method that provides data for Team Activity Chart
+
+        It returns a dictionary. It contains:
+        - "days" : list of date strings formatted as dd/mm of the last 12 days
+        (last date string is `TODAY`)
+        - "opened" : list of amounts of issues opened in the each of the 12 days
+        - "closed" : list of amounts of issues closed in the each of the 12 days
+        - "comments" : list of amounts of comments in issues in each of the 12 days
+        - "total" : total amount of coments+closed+opened
+        """
+
+        deltas = list(range(12))
+        deltas.reverse()
         final_date = timezone.now()
-        start_date = final_date - timedelta(days=12)
-        activity["opened"] = cls.objects.filter(pub_date__range=[start_date, final_date]).select_related()
-        activity["closed"] = cls.objects.filter(close_date__range=[start_date, final_date]).select_related()
-        return activity
+        dates = [final_date - timedelta(days=delta) for delta in deltas]
+        days_formatted = [day.strftime("%d/%m") for day in dates]
+        days_formatted[-1] = "TODAY"
+
+        opened = [cls.objects.filter(pub_date__day=day.day).count() for day in dates]
+        closed = [cls.objects.filter(close_date__day=day.day).count() for day in dates]
+        comments = [TicketComment.objects.filter(created__day=day.day).count() for day in dates]
+
+        return {
+            "days": days_formatted,
+            "opened": opened,
+            "closed": closed,
+            "comments": comments,
+            "total": sum(opened) + sum(closed) + sum(comments),
+        }
+
+    @property
+    def stage(self):
+        """String representing the stage the task is at
+
+        This stage appears in the dashboard as STATUS.
+        It depends on the progress of the task
+        """
+        comments = self.ticketcomment_set.all()
+        if self.progress > 65:
+            return "Close to Completion"
+        elif 20 < self.progress < 65:
+            return "In Progress"
+        else:
+            return "Pending"
 
     def get_absolute_url(self):
         return reverse("core:ticket-detail", kwargs={"pk": self.id})
