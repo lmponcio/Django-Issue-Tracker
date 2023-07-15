@@ -1,10 +1,35 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
+import hashlib
+
+
+def hash_filename(string):
+    """
+    Returns a hashed filename based on an input string
+    """
+
+    string_bytes = string.encode("utf-8")
+    sha256_hash = hashlib.sha256()
+    sha256_hash.update(string_bytes)
+    hashed_filename = sha256_hash.hexdigest()
+
+    return hashed_filename
+
+
+def profile_img_path(instance, filename):
+    """
+    Returns a path (filename included) for the uploaded image to be saved
+    """
+    timestamp = timezone.now()
+    timestamp_string = timestamp.strftime("%Y-%m-%d_%H:%M:%S")
+    return hash_filename(f"{instance.username}{timestamp_string}")
 
 
 # Create your models here.
 class CustomUser(AbstractUser):
-    pass
+    profile_image = models.ImageField(blank=True, upload_to=profile_img_path)
+    position = models.CharField(max_length=50, null=True, blank=True)
 
     @classmethod
     def get_users_with_assignments(cls):
