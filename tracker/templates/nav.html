@@ -17,10 +17,17 @@
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-top"> 
         <ul class="navbar-nav">
+          {% if user.is_authenticated %}
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            <h1 class="welcome-text">Good Morning, <span class="text-black fw-bold">John Doe</span></h1>
-            <h3 class="welcome-sub-text">Your performance summary this week </h3>
+            <h1 class="welcome-text">Welcome, <span class="text-black fw-bold">{{ user.first_name }} {{ user.last_name }}</span></h1>
+            <h3 class="welcome-sub-text">Your team stats are ready for review</h3>
+          </li>          
+          {% else %}
+          <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
+            <h1 class="welcome-text">Welcome, <span class="text-black fw-bold">Guest</span></h1>
+            <h3 class="welcome-sub-text">Log in for full access CRUD access, otherwise you can navigate with read permissions only</h3>
           </li>
+          {% endif %}          
         </ul>
         <ul class="navbar-nav ms-auto">
           <li class="nav-item dropdown d-none d-lg-block">
@@ -150,12 +157,27 @@
           </li>
           <li class="nav-item dropdown d-none d-lg-block user-dropdown">
             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-              <img class="img-xs rounded-circle" src="{% static "images/faces/face8.jpg" %}" alt="Profile image"> </a>
+              {% if user.profile_image %}
+              <img class="img-xs rounded-circle" src="{{ user.profile_image.url }}" alt="Profile image"> </a>
+              {% else %}
+              <img class="img-xs rounded-circle" src="{% static "images/default_profile_picture.jpg" %}" alt="Profile image"> </a>
+              {% endif %}
+              <!-- <img class="img-xs rounded-circle" src="{% static "images/faces/face8.jpg" %}" alt="Profile image"> </a> -->
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
-                <img class="img-md rounded-circle" src="{% static "images/faces/face8.jpg" %}" alt="Profile image">
-                <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
+                {% if user.profile_image %}
+                <img class="img-xs rounded-circle" src="{{ user.profile_image.url }}" alt="Profile image">
+                {% else %}
+                <img class="img-xs rounded-circle" src="{% static "images/default_profile_picture.jpg" %}" alt="Profile image">
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                <p class="mb-1 mt-3 font-weight-semibold">{{ user.first_name }} {{ user.last_name }}</p>
+                {% else %}
+                <p class="mb-1 mt-3 font-weight-semibold">Guest</p>
+                <!-- <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p> -->
+                {% endif %}
+                <!-- <img class="img-md rounded-circle" src="{% static "images/faces/face8.jpg" %}" alt="Profile image"> -->
               </div>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>
