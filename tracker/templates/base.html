@@ -45,7 +45,9 @@
       <!-- partial -->
       <div class="main-panel">
         <!-- PLACEHOLDER FOR BLOCK - BLOCK NEEDS TO BE IN A CONTENT WRAPPER -->
-        {% block content %}{% endblock %}
+        <div class="content-wrapper">
+          {% block content %}{% endblock %}
+        </div>        
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <footer class="footer">
