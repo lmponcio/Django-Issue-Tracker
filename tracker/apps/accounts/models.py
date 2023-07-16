@@ -26,10 +26,17 @@ def profile_img_path(instance, filename):
     return hash_filename(f"{instance.username}{timestamp_string}")
 
 
-# Create your models here.
 class CustomUser(AbstractUser):
     profile_image = models.ImageField(blank=True, upload_to=profile_img_path)
     position = models.CharField(max_length=50, null=True, blank=True)
+
+    @property
+    def open_tickets(self):
+        return self.assigned_tickets.filter(status__name="Open").order_by("-pub_date")
+
+    @property
+    def closed_tickets(self):
+        return self.assigned_tickets.filter(status__name="Closed").order_by("-pub_date")
 
     @classmethod
     def get_users_with_assignments(cls):
