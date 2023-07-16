@@ -16,8 +16,12 @@
               {% endif %}                
             </div>
             <div class="text-center row d-flex justify-content-center mt-1">
-                <button type="button" class="w-75 my-2 btn btn-secondary btn-rounded">Open Issues</button>            
-                <button type="button" class="w-75 my-2 btn btn-secondary btn-rounded">Closed Issues</button>
+                <form action="{% url 'accounts:profile' user %}" method="get">
+                    <button type="submit" name="status" value="Open" class="w-75 my-2 btn btn-secondary btn-rounded">Open Issues</button>            
+                </form>
+                <form action="{% url 'accounts:profile' user %}" method="get">
+                    <button type="submit" name="status" value="Closed" class="w-75 my-2 btn btn-secondary btn-rounded">Closed Issues</button>
+                </form>
             </div>
         </div>
         </div>
@@ -25,7 +29,7 @@
     <div class="col-lg-8 grid-margin">
         <div class="card">
         <div class="card-body">
-            <h4 class="card-title card-title-dash">Issues List</h4>
+            <h4 class="card-title card-title-dash">{{status}} Assigned Issues</h4>
             <div class="table-responsive mt-1">
             <table class="table select-table">
                 <thead>
@@ -48,7 +52,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for ticket in user.open_tickets %}
+                {% for ticket in tickets %}
                 <tr>
                     <td class="py-1">
                         <h6>{{ticket.id}}</h6>
