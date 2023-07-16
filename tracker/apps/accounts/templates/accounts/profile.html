@@ -65,10 +65,10 @@
                         <p>{{ticket.pub_date}}</p>                        
                     </td>
                     <td>
-                        {% include "progress_div.html" with ticket=ticket %}                                        
+                        {% include "_progress_div.html" with ticket=ticket %}                                        
                     </td>      
                     <td>
-                        {% include "stage_div.html" with ticket=ticket %}
+                        {% include "_stage_div.html" with ticket=ticket %}
                     </td>                                                      
                 </tr>
                 {% endfor %}

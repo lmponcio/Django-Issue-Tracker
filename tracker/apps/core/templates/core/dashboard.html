@@ -137,10 +137,10 @@
                                     <p>{{user.1.content|slice:":25"}} ...</p>
                                   </td>
                                   <td>
-                                    {% include "progress_div.html" with ticket=user.1 %}                                        
+                                    {% include "_progress_div.html" with ticket=user.1 %}                                        
                                   </td>
                                   <td>
-                                    {% include "stage_div.html" with ticket=user.1 %}
+                                    {% include "_stage_div.html" with ticket=user.1 %}
                                   </td>
                                 </tr>
                                 {% endfor %} 
@@ -176,7 +176,7 @@
                                         </label>
                                         <div class="d-flex mt-2">
                                           <div class="ps-4 text-small me-3">Opened on   {{ticket.pub_date}}</div>
-                                          {% include "stage_div.html" with ticket=ticket %}
+                                          {% include "_stage_div.html" with ticket=ticket %}
                                         </div>
                                       </div>
                                     </li>
