@@ -7,10 +7,10 @@
           </button>
         </div>
         <div>
-          <a class="navbar-brand brand-logo" href="index.html">
+          <a class="navbar-brand brand-logo" href="{%url 'core:dashboard'%}">
             <img src="{% static "images/logo.svg" %}" alt="logo" />
           </a>
-          <a class="navbar-brand brand-logo-mini" href="index.html">
+          <a class="navbar-brand brand-logo-mini" href="{%url 'core:dashboard'%}">
             <img src="{% static "images/logo-mini.svg" %}" alt="logo" />
           </a>
         </div>
@@ -162,25 +162,30 @@
               <!-- <img class="img-xs rounded-circle" src="{% static "images/faces/face8.jpg" %}" alt="Profile image"> </a> -->
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
-                {% if user.profile_image %}
-                <img class="img-xs rounded-circle" src="{{ user.profile_image.url }}" alt="Profile image">
-                {% else %}
-                <img class="img-xs rounded-circle" src="{% static "images/default_profile_picture.jpg" %}" alt="Profile image">
-                {% endif %}
+                <img class="img-xs rounded-circle" src="{% include "_identify_image.html"  with user=user%}" alt="Profile image">
+
 
                 {% if user.is_authenticated %}
-                <p class="mb-1 mt-3 font-weight-semibold">{{ user.first_name }} {{ user.last_name }}</p>
+                  <p class="mb-1 mt-3 font-weight-semibold">
+                    {% include "_identify_user.html"  with user=user%}
+                  </p>
                 {% else %}
-                <p class="mb-1 mt-3 font-weight-semibold">Guest</p>
-                <!-- <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p> -->
+                  <p class="mb-1 mt-3 font-weight-semibold">
+                    Guest
+                  </p>
                 {% endif %}
+                <!-- <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p> -->
                 <!-- <img class="img-md rounded-circle" src="{% static "images/faces/face8.jpg" %}" alt="Profile image"> -->
               </div>
-              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
-              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>
-              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
-              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>
-              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+              {% if user.is_authenticated %}
+                <a href="{%url "accounts:profile" user%}" class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile</a>
+                <a href="{%url "logout"%}" class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+              {%else%}
+                <a href="{%url "login"%}" class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign In</a>
+              {% endif %}
+              <!-- <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a> -->
+              <!-- <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a> -->
+              <!-- <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a> -->
             </div>
           </li>
         </ul>

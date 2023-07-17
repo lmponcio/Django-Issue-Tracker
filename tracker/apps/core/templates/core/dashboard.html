@@ -114,22 +114,8 @@
                                 <tr>
 
                                   <td>
-                                    <div class="d-flex ">
-                                      {% if user.0.profile_image %}
-                                      <img src="{{ user.0.profile_image.url }}" alt="">
-                                      {% else %}
-                                      <img src="{% static "images/default_profile_picture.jpg" %}" alt="">
-                                      {% endif %}
-                                      <div>
-                                        <!-- user name (0 is the position in the list where user is located)-->
-                                        <h6>{{user.0}}</h6>
-                                        {% if user.0.position %}
-                                          {{ user.0.position }}
-                                        {% else %}
-                                        <p>Developer</p>
-                                        {% endif %}
-                                      </div>
-                                    </div>
+                                    <!-- (0 is the position in the list where user is located)-->
+                                    {% include "_photo_name_div.html" with user=user.0 %}
                                   </td>
                                   <td>
                                     <!-- issue title (1 is the position in the tuple where the corresponding ticket is located)-->
@@ -166,8 +152,26 @@
                                   <button class="add btn btn-icons btn-rounded btn-primary todo-list-add-btn text-white me-0 pl-12p"><i class="mdi mdi-plus"></i></button>
                                 </div>
                               </div>
-                              <div class="list-wrapper">
+                              <div class="list-wrapper">                             
+                                <!-- second try -->
                                 <ul class="todo-list todo-list-rounded">
+                                  {% for ticket in ticket_list_open|slice:":4" %}
+                                  <a href="{%url "core:ticket_detail" ticket.id%}" style="color: inherit; text-decoration: none;">
+                                    <li class="d-block">
+                                      <div class="form-check w-100 mb-2">
+                                        <label class="form-check-label">
+                                          <input class="" type=""> <strong>{{ticket.title}}</strong> <i class=""></i>
+                                        </label>
+                                        <div class="d-flex mt-2">
+                                          <div class="ps-4 text-small me-3" style="color:#8c8c8c; font-weight: 400;">Opened on   {{ticket.pub_date}}</div>
+                                          {% include "_stage_div.html" with ticket=ticket %}
+                                        </div>
+                                      </div>
+                                    </li>
+                                  </a>
+                                  {% endfor %}                                  
+                                </ul>                                
+                                <!-- <ul class="todo-list todo-list-rounded">
                                   {% for ticket in ticket_list_open|slice:":4" %}
                                     <li class="d-block">
                                       <div class="form-check w-100">
@@ -181,7 +185,7 @@
                                       </div>
                                     </li>
                                   {% endfor %}                                  
-                                </ul>
+                                </ul> -->
                               </div>
                             </div>
                           </div>

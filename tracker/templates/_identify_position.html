@@ -1,0 +1,8 @@
+{% comment %}
+Usage: {% include "_identify_position.html"  with user=user%}
+{% endcomment %}
+{% if user.position %}
+    {{user.position}}
+{% else %}
+    Developer
+{% endif %}

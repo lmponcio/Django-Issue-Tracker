@@ -1,0 +1,9 @@
+{% comment %}
+    Usage: {% include "_identify_image.html"  with user=user%}
+{% endcomment %}
+{% load static %}
+{% if user.profile_image %}
+    {{ user.profile_image.url }}
+{% else %}
+    {% static "images/default_profile_picture.jpg" %}
+{% endif %}

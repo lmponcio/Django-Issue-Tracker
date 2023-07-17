@@ -32,7 +32,7 @@ class CustomUser(AbstractUser):
 
     @property
     def open_tickets(self):
-        return self.assigned_tickets.filter(status__name="Open").order_by("-pub_date")
+        return self.assigned_tickets.filter(status__name="Open").order_by("-pub_date").select_related()
 
     @property
     def closed_tickets(self):

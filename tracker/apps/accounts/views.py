@@ -9,6 +9,10 @@ from .forms import CustomUserCreationForm
 from django.http import HttpResponse
 
 
+class CustomUserListView(generic.ListView):
+    model = CustomUser
+
+
 class CreateAccountView(LoginRequiredMixin, CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy("login")
