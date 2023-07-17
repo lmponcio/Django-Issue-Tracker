@@ -1,16 +1,75 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>All Tickets</h2>
-
-<div id="all-tickets">
-    {% if ticket_list %}
-        {% for ticket in ticket_list %}
-            <p>{{ticket.title}}</p>
-        {% endfor %}
-    {% else %}
-        <p>No Tickets in Database</p>
-    {% endif %}
+<div class="row">
+    <div class="col-lg-12 grid-margin">
+        <div class="card">
+        <div class="card-body">
+            <h4 class="card-title card-title-dash">{{status}} Assigned Issues</h4>
+            <div class="table-responsive mt-1">
+            <table class="table select-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Content</th>     
+                    <th>Created By</th>     
+                    <th>Assignees</th>                    
+                    <th>Date Opened</th>
+                    <th>Progress</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ticket in ticket_list %}
+                <tr>
+                    <td>
+                        <h6>{{ticket.id}}</h6>
+                    </td>
+                    <td>
+                        <h6>{{ticket.title}}</h6>
+                        <p>{{ticket.content|slice:":20"}} ...</p>                        
+                    </td>   
+                    <td>
+                        <p>
+                            {% include "_identify_user.html" with user=ticket.author %}
+                        </p>
+                    </td>        
+                    <td>
+                        {%for assignee in ticket.assignees.all%}
+                        <p>{% include "_identify_user.html" with user=assignee %}</p>                        
+                        {%endfor%}
+                    </td>                                           
+                    <td>
+                        <p>{{ticket.pub_date}}</p>                        
+                    </td>
+                    <td>
+                        {% include "_progress_div.html" with ticket=ticket %}
+                    </td>      
+                    <td>
+                        {% include "_stage_div.html" with ticket=ticket %}
+                    </td>                                                      
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+    </div>
 </div>
 
+
 {% endblock %}
+
+{% comment block %}
+    <h2>All Tickets</h2>
+    <div id="all-tickets">
+        {% if ticket_list %}
+            {% for ticket in ticket_list %}
+                <p>{{ticket.title}}</p>
+            {% endfor %}
+        {% else %}
+            <p>No Tickets in Database</p>
+        {% endif %}
+    </div>
+{% endcomment %}

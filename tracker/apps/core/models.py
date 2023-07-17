@@ -118,16 +118,22 @@ class Ticket(TimeStampedModel):
     def stage(self):
         """String representing the stage the task is at
 
-        This stage appears in the dashboard as STATUS.
-        It depends on the progress of the task
+        This string provides insights regarding the level of
+        advancement of the ticket. Its value depends on the
+        `status` and `progress` of the ticket.
         """
         comments = self.ticketcomment_set.all()
-        if self.progress > 65:
-            return "Close to Completion"
-        elif 20 < self.progress < 65:
-            return "In Progress"
+        if self.status.name == "Closed":
+            # One stage stages when ticket Closed
+            return "Closed"
         else:
-            return "Pending"
+            # Three different stages when ticket Open
+            if 65 < self.progress:
+                return "Close to Completion"
+            elif 20 < self.progress < 65:
+                return "In Progress"
+            else:
+                return "Pending"
 
     def get_absolute_url(self):
         return reverse("core:ticket-detail", kwargs={"pk": self.id})

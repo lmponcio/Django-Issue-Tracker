@@ -9,6 +9,14 @@ from tracker.apps.accounts.models import CustomUser
 
 class TicketListView(generic.ListView):
     model = Ticket
+    ordering = ["status", "-pub_date"]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        q = self.request.GET.get("q")
+        if q:
+            return queryset.filter(title__icontains=q)
+        return queryset
 
 
 class TicketDetailView(generic.DetailView):
