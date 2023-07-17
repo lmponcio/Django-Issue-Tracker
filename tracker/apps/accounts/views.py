@@ -9,10 +9,10 @@ from .forms import CustomUserCreationForm
 from django.http import HttpResponse
 
 
-class CreateAccountView(CreateView):
+class CreateAccountView(LoginRequiredMixin, CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy("login")
-    template_name = "accounts/createAccount.html"
+    template_name = "accounts/create_account.html"
 
 
 class ProfileView(LoginRequiredMixin, generic.DetailView):
