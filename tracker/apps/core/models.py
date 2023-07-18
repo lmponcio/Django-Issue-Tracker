@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.db.models import F, Avg
 from django.core.validators import MinValueValidator, MaxValueValidator
 from tracker.apps.accounts.models import CustomUser
+from .utils import file_path
 
 
 class TimeStampedModel(models.Model):
@@ -124,7 +125,7 @@ class Ticket(TimeStampedModel):
         """
         comments = self.ticketcomment_set.all()
         if self.status.name == "Closed":
-            # One stage stages when ticket Closed
+            # One stage when ticket Closed
             return "Closed"
         else:
             # Three different stages when ticket Open
@@ -161,6 +162,19 @@ class Ticket(TimeStampedModel):
 
 
 class TicketComment(TimeStampedModel):
-    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, related_name="comments")
     author = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
     content = models.TextField(max_length=2000)
+    pub_date = models.DateTimeField(null=True, blank=True, default=None)
+
+
+class TicketFile(models.Model):
+    file = models.FileField(upload_to=file_path)
+    name = models.CharField(max_length=260)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, related_name="files")
+
+
+class TicketCommentFile(models.Model):
+    file = models.FileField(upload_to=file_path)
+    name = models.CharField(max_length=260)
+    comment = models.ForeignKey(TicketComment, on_delete=models.CASCADE, related_name="files")

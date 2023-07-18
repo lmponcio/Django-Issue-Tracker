@@ -1,6 +1,80 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="row">
+    <div class="col-lg-8 grid-margin">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div id="ticket-detail">
+                    <h3 class="card-title card-title-dash mb-4">{{ticket.title}}</h4>
+                    <p class="mb-5">{{ticket.content}}</p>
+                    <p class="text-end mb-4">
+                        <strong>{{ticket.author}}</strong><br>
+                        <span class="card-description mb-1 text-end">Created on {{ticket.pub_date}}</span>    
+                    </p>
+                </div>
+                {% if comments %}
+                    {% for comment in comments %}
+                        <hr style="border-width:0;color:#76838f;background-color:#76838f"> 
+                        <div id="ticket-comment">
+                            <p><strong>Comment</strong></p>
+                            <p class="mb-5">{{comment.content}}</p>
+                            <p class="text-end mb-4">
+                                <strong>{{ comment.author }}</strong><br>
+                                <span class="card-description mb-1 text-end">Commented on {{comment.pub_date}}</span>    
+                            </p>
+                        </div>
+                    {%endfor%}
+                {% endif %}
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                {% if user.is_authenticated %}
+                    <h4 class="card-title card-title-dash mb-4">Add a comment</h4>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ comment_form }}
+                            <button type="submit">Add comment <i class="fas fa-comments"></i></button>
+                        </div>
+                    </form>
+                {% else %}
+                    <h4 class="card-title card-title-dash mb-4">Authentication required to comment</h4>
+                    <a href="{% url 'login' %}?next={{request.path}}">Log in to add a comment!</a><br>
+                {% endif %}
+            </div>
+        </div>        
+    </div>
+    <div class="col-lg-4 grid-margin">
+        <div class="card">
+        <div class="card-body mt-2">
+            <div class="text-center">
+                <img class="w-50 img-md rounded-circle" src="{% include "_identify_image.html"  with user=user%}" alt="">
+            </div>
+            <div class="text-center">
+                <h4 class="display-5 mt-3">
+                    {% include "_identify_user.html"  with user=user%}
+                </h4>
+                <p class="card-description">
+                    {% include "_identify_position.html"  with user=user%}
+                </p>
+            </div>
+            <div class="text-center row d-flex justify-content-center mt-1">
+                <form action="{% url 'accounts:profile' user %}" method="get">
+                    <button type="submit" name="status" value="Open" class="w-75 my-2 btn btn-secondary btn-rounded">Open Issues</button>            
+                </form>
+                <form action="{% url 'accounts:profile' user %}" method="get">
+                    <button type="submit" name="status" value="Closed" class="w-75 my-2 btn btn-secondary btn-rounded">Closed Issues</button>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% comment block %}
 <h2>Ticket Detail</h2>
 
 <div id="ticket-detail">
@@ -50,6 +124,4 @@
     
     
 </div>
-
-
-{% endblock %}
+{% endcomment %}

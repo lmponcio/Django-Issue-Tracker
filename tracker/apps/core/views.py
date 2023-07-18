@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Ticket, TicketComment, TicketStatus, TicketLabel
 from .forms import TicketCommentForm
 from tracker.apps.accounts.models import CustomUser
+from django.utils import timezone
 
 
 class TicketListView(generic.ListView):
@@ -25,8 +26,7 @@ class TicketDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        comments = TicketComment.objects.filter(ticket=self.get_object()).order_by("created")
+        comments = self.get_object().comments.all().order_by("pub_date")
         context["comments"] = comments
         if self.request.user.is_authenticated:
             context["comment_form"] = TicketCommentForm(instance=self.request.user)
@@ -35,7 +35,10 @@ class TicketDetailView(generic.DetailView):
 
     def post(self, request, *args, **kwargs):
         new_comment = TicketComment(
-            content=request.POST.get("content"), author=self.request.user, ticket=self.get_object()
+            content=request.POST.get("content"),
+            author=self.request.user,
+            ticket=self.get_object(),
+            pub_date=timezone.now(),
         )
         new_comment.save()
         return self.get(self, request, *args, **kwargs)

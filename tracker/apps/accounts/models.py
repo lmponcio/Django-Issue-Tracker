@@ -1,20 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from tracker.apps.core.utils import hash_filename
 from django.utils import timezone
-import hashlib
-
-
-def hash_filename(string):
-    """
-    Returns a hashed filename based on an input string
-    """
-
-    string_bytes = string.encode("utf-8")
-    sha256_hash = hashlib.sha256()
-    sha256_hash.update(string_bytes)
-    hashed_filename = sha256_hash.hexdigest()
-
-    return hashed_filename
 
 
 def profile_img_path(instance, filename):
@@ -23,7 +10,7 @@ def profile_img_path(instance, filename):
     """
     timestamp = timezone.now()
     timestamp_string = timestamp.strftime("%Y-%m-%d_%H:%M:%S")
-    return hash_filename(f"{instance.username}{timestamp_string}")
+    return "profile_images/" + hash_filename(f"{instance.username}{timestamp_string}")
 
 
 class CustomUser(AbstractUser):
@@ -49,4 +36,7 @@ class CustomUser(AbstractUser):
         return uwa
 
     def __str__(self):
-        return self.username
+        if self.first_name and self.last_name:
+            return " ".join([self.first_name, self.last_name])
+        else:
+            return self.username
