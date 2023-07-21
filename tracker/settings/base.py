@@ -63,6 +63,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "tracker.apps.core.middleware.NewCommentSessionCleaner",
 ]
 
 
@@ -173,4 +174,4 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 TRACKER_ENVIRONMENT = config("TRACKER_ENVIRONMENT", default="local")
 
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
