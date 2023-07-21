@@ -21,4 +21,4 @@ def file_path(instance, filename):
     """
     timestamp = timezone.now()
     timestamp_string = timestamp.strftime("%Y-%m-%d_%H:%M:%S")
-    return "uploaded_files/" + hash_filename(f"{instance.username}{timestamp_string}")
+    return "uploaded_files/" + hash_filename(f"{instance.name}{timestamp_string}")

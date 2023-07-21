@@ -156,7 +156,7 @@
                                 <!-- second try -->
                                 <ul class="todo-list todo-list-rounded">
                                   {% for ticket in ticket_list_open|slice:":4" %}
-                                  <a href="{%url "core:ticket_detail" ticket.id%}" style="color: inherit; text-decoration: none;">
+                                  <a href="{%url "core:ticket" ticket.id%}" style="color: inherit; text-decoration: none;">
                                     <li class="d-block">
                                       <div class="form-check w-100 mb-2">
                                         <label class="form-check-label">

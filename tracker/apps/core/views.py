@@ -1,9 +1,11 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.views import generic
+from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Ticket, TicketComment, TicketStatus, TicketLabel
-from .forms import TicketCommentForm
+from .models import Ticket, TicketComment, TicketCommentFile, TicketStatus, TicketLabel
+from .forms import TicketCommentForm, TicketCommentFileForm
 from tracker.apps.accounts.models import CustomUser
 from django.utils import timezone
 
@@ -21,6 +23,10 @@ class TicketListView(generic.ListView):
 
 
 class TicketDetailView(generic.DetailView):
+    """
+    This view processes all GET requests sent to TicketView.
+    """
+
     model = Ticket
     context_object_name = "ticket"
 
@@ -29,19 +35,83 @@ class TicketDetailView(generic.DetailView):
         comments = self.get_object().comments.all().order_by("pub_date")
         context["comments"] = comments
         if self.request.user.is_authenticated:
-            context["comment_form"] = TicketCommentForm(instance=self.request.user)
-
+            context["comment_form"] = TicketCommentForm
+            context["file_form"] = TicketCommentFileForm
         return context
 
+
+class TicketCommentFileCreateView(LoginRequiredMixin, SingleObjectMixin, generic.FormView):
+    """
+    This view processes all POST requests sent to TicketView.
+    """
+
+    template_name = "core/ticket_detail.html"
+    model = Ticket
+    form_class = TicketCommentFileForm
+    max_attachments = 3
+
     def post(self, request, *args, **kwargs):
-        new_comment = TicketComment(
-            content=request.POST.get("content"),
-            author=self.request.user,
-            ticket=self.get_object(),
-            pub_date=timezone.now(),
-        )
-        new_comment.save()
-        return self.get(self, request, *args, **kwargs)
+        self.object = self.get_object()  # for get_success_url kwargs
+        if "content" in request.POST:
+            # A comment was submitted
+            form = TicketCommentForm(self.request.POST)
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.ticket = self.object
+            # here I have to link it to the uploads if present
+            print(comment.__dict__)
+            self.reset_attachments()
+            comment.save()
+            return HttpResponseRedirect(self.get_success_url())
+        elif "file" in request.FILES:
+            # A file was submitted
+            return super().post(request, *args, **kwargs)  # calls form_valid
+
+    def form_valid(self, form):
+        file = form.save(commit=False)
+        file.name = str(self.request.FILES["file"])
+        self.add_attachment(file)
+        return super().form_valid(form)  # calls get_success_url
+
+    def get_success_url(self):
+        return reverse_lazy("core:ticket", kwargs={"pk": self.object.pk})
+
+    def add_attachment(self, file):
+        ticket_id = self.object.string_id
+        if "attachments" not in self.request.session:
+            self.request.session["attachments"] = {}
+        attachtments = self.request.session["attachments"]
+        if ticket_id not in attachtments:
+            attachtments[ticket_id] = []
+        if len(attachtments[ticket_id]) < self.max_attachments:
+            # save to database
+            file.save()
+            # add to comment
+            attachtments[ticket_id].append({"name": file.name, "id": file.id})
+            self.request.session["attachments"] = attachtments
+
+    def reset_attachments(self):
+        ticket_id = self.object.string_id
+        attachtments = self.request.session["attachments"]
+        if ticket_id in attachtments:
+            del attachtments[ticket_id]
+        self.request.session["attachments"] = attachtments
+
+
+class TicketView(generic.View):
+    """
+    View containing (a) the detail of the ticket,
+    (b) the list of comments associated with that
+    ticket, and (c) a form to submit a new comment
+    """
+
+    def get(self, request, *args, **kwargs):
+        view = TicketDetailView.as_view()
+        return view(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        view = TicketCommentFileCreateView.as_view()
+        return view(request, *args, **kwargs)
 
 
 class DashboardView(TicketListView):
@@ -57,8 +127,6 @@ class DashboardView(TicketListView):
         context["label_in_open"] = TicketLabel.get_amounts_in_open_tickets()
         context["user_amount"] = CustomUser.objects.count()
         context["user_list_with_assignments"] = CustomUser.get_users_with_assignments()
-        # TODO:
-        ## Add users with open tickets
         return context
 
 

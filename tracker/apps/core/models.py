@@ -116,6 +116,10 @@ class Ticket(TimeStampedModel):
         }
 
     @property
+    def string_id(self):
+        return str(self.id)
+
+    @property
     def stage(self):
         """String representing the stage the task is at
 
@@ -176,5 +180,5 @@ class TicketFile(models.Model):
 
 class TicketCommentFile(models.Model):
     file = models.FileField(upload_to=file_path)
-    name = models.CharField(max_length=260)
-    comment = models.ForeignKey(TicketComment, on_delete=models.CASCADE, related_name="files")
+    name = models.CharField(max_length=260, blank=True)
+    comment = models.ForeignKey(TicketComment, on_delete=models.CASCADE, related_name="files", blank=True, null=True)

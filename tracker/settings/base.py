@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "tracker.apps.core",
+    "crispy_forms",
+    "crispy_bootstrap4",
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -161,9 +163,14 @@ MEDIA_ROOT = BASE_DIR.parent.parent / "media"
 # THIRD-PARTY SETTINGS
 # ==============================================================================
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # ==============================================================================
 # FIRST-PARTY SETTINGS
 # ==============================================================================
 
 TRACKER_ENVIRONMENT = config("TRACKER_ENVIRONMENT", default="local")
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

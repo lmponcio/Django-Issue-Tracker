@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+
+{% load crispy_forms_tags %}
+
+
 {% block content %}
 <div class="row">
     <div class="col-lg-8 grid-margin">
@@ -28,6 +32,7 @@
                 {% endif %}
             </div>
         </div>
+        <!--  -->
         <div class="card">
             <div class="card-body">
                 {% if user.is_authenticated %}
@@ -35,10 +40,24 @@
                     <form method="POST">
                         {% csrf_token %}
                         <div class="form-group">
-                            {{ comment_form }}
-                            <button type="submit">Add comment <i class="fas fa-comments"></i></button>
+                            {{comment_form|crispy}}
+                            <button type="submit" class="btn btn-success">Add comment <i class="fas fa-comments"></i></button>
                         </div>
                     </form>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{file_form|crispy}}
+                            <button type="submit" class="btn btn-success">Add file <i class="fas fa-comments"></i></button>
+                        </div>
+                    </form> 
+                    {%for id, attachment_set in request.session.attachments.items %} 
+                        {% if id == ticket.string_id %}
+                            {%for attachment in attachment_set%}
+                                {{attachment.name}} <br>
+                            {%endfor%}
+                        {% endif%}
+                    {%endfor%}
                 {% else %}
                     <h4 class="card-title card-title-dash mb-4">Authentication required to comment</h4>
                     <a href="{% url 'login' %}?next={{request.path}}">Log in to add a comment!</a><br>
@@ -108,7 +127,7 @@
     {% else %}
     <strong class="text-secondary">No comments yet...</strong>
     {% endif %}
-    
+
     <h2>Comment Below:</h2>
     {% if user.is_authenticated %}
     <form method="POST">
