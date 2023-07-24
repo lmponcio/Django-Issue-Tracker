@@ -8,6 +8,7 @@ from .models import Ticket, TicketComment, TicketCommentFile, TicketStatus, Tick
 from .forms import TicketCommentForm, TicketCommentFileForm
 from tracker.apps.accounts.models import CustomUser
 from django.utils import timezone
+from datetime import datetime
 
 
 class TicketListView(generic.ListView):
@@ -58,8 +59,8 @@ class TicketCommentFileCreateView(LoginRequiredMixin, SingleObjectMixin, generic
             comment = form.save(commit=False)
             comment.author = request.user
             comment.ticket = self.object
-            # here I have to link it to the uploads if present
-            print(comment.__dict__)
+            # TODO:
+            # here I have to link it to the attachments if present
             self.reset_attachments()
             comment.save()
             return HttpResponseRedirect(self.get_success_url())
@@ -86,16 +87,19 @@ class TicketCommentFileCreateView(LoginRequiredMixin, SingleObjectMixin, generic
         if len(attachtments[ticket_id]) < self.max_attachments:
             # save to database
             file.save()
-            # add to comment
-            attachtments[ticket_id].append({"name": file.name, "id": file.id})
+            # add to comment (session data)
+            attachtments[ticket_id].append(
+                {"name": file.name, "id": file.id, "created": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+            )
             self.request.session["attachments"] = attachtments
 
     def reset_attachments(self):
         ticket_id = self.object.string_id
-        attachtments = self.request.session["attachments"]
-        if ticket_id in attachtments:
-            del attachtments[ticket_id]
-        self.request.session["attachments"] = attachtments
+        if "attachments" in self.request.session:
+            attachtments = self.request.session["attachments"]
+            if ticket_id in attachtments:
+                del attachtments[ticket_id]
+            self.request.session["attachments"] = attachtments
 
 
 class TicketView(generic.View):
@@ -106,6 +110,7 @@ class TicketView(generic.View):
     """
 
     def get(self, request, *args, **kwargs):
+        print("inside TicketView")
         view = TicketDetailView.as_view()
         return view(request, *args, **kwargs)
 

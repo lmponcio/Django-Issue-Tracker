@@ -22,3 +22,17 @@ def file_path(instance, filename):
     timestamp = timezone.now()
     timestamp_string = timestamp.strftime("%Y-%m-%d_%H:%M:%S")
     return "uploaded_files/" + hash_filename(f"{instance.name}{timestamp_string}")
+
+
+def find_string_between_substrings(input_string, start_substring, end_substring):
+    """Given two substrings that mark the start and end, it returns the text in the middle"""
+    start_index = input_string.find(start_substring)
+    if start_index == -1:
+        return None  # Start substring not found in the input_string
+
+    end_index = input_string.find(end_substring, start_index + len(start_substring))
+    if end_index == -1:
+        return None  # End substring not found after the start_substring
+
+    result_string = input_string[start_index + len(start_substring) : end_index]
+    return result_string

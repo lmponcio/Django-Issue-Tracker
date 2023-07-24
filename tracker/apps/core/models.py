@@ -178,7 +178,14 @@ class TicketFile(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, related_name="files")
 
 
-class TicketCommentFile(models.Model):
+class TicketCommentFile(TimeStampedModel):
     file = models.FileField(upload_to=file_path)
     name = models.CharField(max_length=260, blank=True)
     comment = models.ForeignKey(TicketComment, on_delete=models.CASCADE, related_name="files", blank=True, null=True)
+
+    @property
+    def minutes_since_creation(self):
+        return (timezone.now() - self.created).total_seconds() / 60
+
+    def __str__(self):
+        return self.name
