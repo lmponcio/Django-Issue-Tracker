@@ -8,7 +8,6 @@ from .models import Ticket, TicketComment, TicketCommentFile, TicketStatus, Tick
 from .forms import TicketCommentForm, TicketCommentFileForm
 from tracker.apps.accounts.models import CustomUser
 from django.utils import timezone
-from datetime import datetime
 
 
 class TicketListView(generic.ListView):
@@ -33,12 +32,21 @@ class TicketDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        comments = self.get_object().comments.all().order_by("pub_date")
+        comments = self.get_object().comments.all().order_by("pub_date").select_related()
         context["comments"] = comments
         if self.request.user.is_authenticated:
             context["comment_form"] = TicketCommentForm
             context["file_form"] = TicketCommentFileForm
+            context["navigate_to_form"] = self._set_navigation()
         return context
+
+    def _set_navigation(self):
+        if "attachments" not in self.request.session:
+            return False
+        elif self.kwargs["pk"] not in self.request.session["attachments"]:
+            return False
+        else:
+            return True
 
 
 class TicketCommentFileCreateView(LoginRequiredMixin, SingleObjectMixin, generic.FormView):
@@ -59,10 +67,9 @@ class TicketCommentFileCreateView(LoginRequiredMixin, SingleObjectMixin, generic
             comment = form.save(commit=False)
             comment.author = request.user
             comment.ticket = self.object
-            # TODO:
-            # here I have to link it to the attachments if present
-            self.reset_attachments()
+            comment.pub_date = timezone.now()
             comment.save()
+            self.link_attachments(comment)
             return HttpResponseRedirect(self.get_success_url())
         elif "file" in request.FILES:
             # A file was submitted
@@ -78,6 +85,10 @@ class TicketCommentFileCreateView(LoginRequiredMixin, SingleObjectMixin, generic
         return reverse_lazy("core:ticket", kwargs={"pk": self.object.pk})
 
     def add_attachment(self, file):
+        """
+        Saves TicketCommentFile instance to db and creates
+        attachment session variables associated with it
+        """
         ticket_id = self.object.string_id
         if "attachments" not in self.request.session:
             self.request.session["attachments"] = {}
@@ -88,18 +99,29 @@ class TicketCommentFileCreateView(LoginRequiredMixin, SingleObjectMixin, generic
             # save to database
             file.save()
             # add to comment (session data)
-            attachtments[ticket_id].append(
-                {"name": file.name, "id": file.id, "created": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
-            )
+            attachtments[ticket_id].append({"name": file.name, "id": file.id})
             self.request.session["attachments"] = attachtments
 
-    def reset_attachments(self):
-        ticket_id = self.object.string_id
+    def link_attachments(self, comment):
+        """
+        Links attachements in database with the
+        comment instance provided.
+
+        - It fills the field "comment_id" in all the TicketCommentFile
+         instances that belong to the provided TicketComment instance
+        - It removes the attachment session variables for the
+        ticket the comment instance belongs to.
+        """
         if "attachments" in self.request.session:
-            attachtments = self.request.session["attachments"]
-            if ticket_id in attachtments:
-                del attachtments[ticket_id]
-            self.request.session["attachments"] = attachtments
+            attachments = self.request.session["attachments"]
+            ticket_id = self.object.string_id
+            if ticket_id in attachments:
+                for attachment in attachments[ticket_id]:
+                    file = TicketCommentFile.objects.get(id=attachment["id"])
+                    file.comment = comment
+                    file.save()
+                del attachments[ticket_id]
+            self.request.session["attachments"] = attachments
 
 
 class TicketView(generic.View):

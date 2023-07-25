@@ -5,6 +5,20 @@
 
 
 {% block content %}
+{% if navigate_to_form %}
+    <style>
+        html {
+        scroll-behavior: auto !important;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function() {
+        console.log("running the onload one");
+        window.location.hash = "comment_card";
+        }; 
+    </script>
+{% endif %}
+
 <div class="row">
     <div class="col-lg-8 grid-margin">
         <div class="card mb-3">
@@ -21,19 +35,30 @@
                     {% for comment in comments %}
                         <hr style="border-width:0;color:#76838f;background-color:#76838f"> 
                         <div id="ticket-comment">
-                            <p><strong>Comment</strong></p>
-                            <p class="mb-5">{{comment.content}}</p>
-                            <p class="text-end mb-4">
-                                <strong>{{ comment.author }}</strong><br>
-                                <span class="card-description mb-1 text-end">Commented on {{comment.pub_date}}</span>    
-                            </p>
+                            <div class="row">
+                                <p><strong>Comment</strong></p>
+                                <p class="mb-5">{{comment.content}}</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    {%for file in comment.files.all%}
+                                        <button class="btn btn-link btn-sm p-1" onclick="{{file.file.url}}">{{file.name}}</button>
+                                    {%endfor%}
+                                </div>
+                                <div class="col-lg-6">
+                                    <p class="text-end mb-4">
+                                        <strong>{{ comment.author }}</strong><br>
+                                        <span class="card-description mb-1 text-end">Commented on {{comment.pub_date}}</span>    
+                                    </p>
+                                </div>                                
+                            </div>
                         </div>
                     {%endfor%}
                 {% endif %}
             </div>
         </div>
         <!--  -->
-        <div class="card">
+        <div class="card" id="comment_card">
             <div class="card-body">
                 {% if user.is_authenticated %}
                     <h4 class="card-title card-title-dash mb-4">Add a comment</h4>
@@ -93,6 +118,11 @@
     </div>
 </div>
 {% endblock content %}
+
+
+
+
+
 
 {% comment block %}
 <h2>Ticket Detail</h2>
