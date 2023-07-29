@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-
+{% load static %}
 {% load crispy_forms_tags %}
 
 
@@ -42,7 +42,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     {%for file in comment.files.all%}
-                                        <button class="btn btn-link btn-sm p-1" onclick="{{file.file.url}}">{{file.name}}</button>
+                                        <button class="btn btn-link btn-sm p-1" onclick="location.href='{{file.file.url}}';">{{file.name}}</button>
                                     {%endfor%}
                                 </div>
                                 <div class="col-lg-6">
@@ -117,61 +117,6 @@
         </div>
     </div>
 </div>
+<script src="{% static "js/comment.js" %}"></script>
+<link rel="stylesheet" href="{% static "css/comment.css" %}">
 {% endblock content %}
-
-
-
-
-
-
-{% comment block %}
-<h2>Ticket Detail</h2>
-
-<div id="ticket-detail">
-    {% if ticket %}
-            <p>{{ticket.title}}</p>
-            <p>{{ticket.content}}</p>
-    {% else %}
-        <p>No Tickets Found</p>
-    {% endif %}
-</div>
-<!-- COMMENTS  -->
-<div id="ticket-comments">
-    {% if comments %}
-    <strong class="text-secondary">{{ object.number_of_comments }} Comment{{ object.number_of_comments|pluralize }}</strong>
-    <hr> <!-- horizontal line  --> 
-    <ul>
-        {% for comment in comments %}
-        <li>           
-            <div>
-                <span>
-                    <strong class="">{{ comment.author }} </strong>
-                    <small class="text-muted">{{ comment.date_posted }}</small>
-                </span>
-                <p>
-                    {{ comment.content|safe }}
-                </p>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <strong class="text-secondary">No comments yet...</strong>
-    {% endif %}
-
-    <h2>Comment Below:</h2>
-    {% if user.is_authenticated %}
-    <form method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-            {{ comment_form }}
-            <button type="submit">Add comment <i class="fas fa-comments"></i></button>
-        </div>
-    </form>
-    {% else %}
-    <a href="{% url 'login' %}?next={{request.path}}">Log in to add a comment!</a><br>
-    {% endif %}
-    
-    
-</div>
-{% endcomment %}
