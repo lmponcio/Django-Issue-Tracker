@@ -67,15 +67,28 @@ hiddenForm.classList.add("d-none");
 // // // // // // // // // // // // // // // // // // // // 
 
 function addFilesReadyToSubmit() {
+
     const parentElement = document.querySelectorAll('.form-group')[0];
     const addCommentButton = document.querySelectorAll('button[type="submit"]')[0];
-    // const addCommentButton = buttons[0]
-    // console.log(buttons)
-    // console.log(addCommentButton)
+    addCommentButton.classList.add("mt-2") // crispy forms setup needs a bit more of margin here
 
+    const attachments = JSON.parse(document.getElementById("new_comment_attachments").textContent);
+    for (let i = 0; i < attachments.length; i++) {
+        console.log(attachments[i]);
+        console.log(attachments[i].name);
+        console.log(attachments[i].url);
 
-    const newElement = document.createElement("p");
-    newElement.textContent = "This is the new content";
-    // const addCommentButton = document.querySelector('button:contains("Add comment")');
-    parentElement.insertBefore(newElement, addCommentButton);
+        const newElement = document.createElement("div");
+        const newButton = document.createElement("button");
+        newButton.textContent = attachments[i].name;
+        newButton.setAttribute("onclick", "location.href='" + attachments[i].url + "'");
+        newButton.classList.add('btn');
+        newButton.classList.add('btn-link');
+        newButton.classList.add('btn-sm');
+        newButton.classList.add('p-1');
+        newButton.classList.add('my-1');
+        newElement.appendChild(newButton)
+        parentElement.insertBefore(newElement, addCommentButton);
+    }
 }
+addFilesReadyToSubmit();

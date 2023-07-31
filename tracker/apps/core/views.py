@@ -38,6 +38,7 @@ class TicketDetailView(generic.DetailView):
             context["comment_form"] = TicketCommentForm
             context["file_form"] = TicketCommentFileForm
             context["navigate_to_form"] = self._set_navigation()
+            context["attachments"] = self._get_attachment_links()
         return context
 
     def _set_navigation(self):
@@ -48,8 +49,17 @@ class TicketDetailView(generic.DetailView):
         else:
             return True
 
+    def _get_attachment_links(self):
+        print("the set att function gets executed")
+        if "attachments" in self.request.session:
+            attachments = self.request.session["attachments"]
+            print("atts: ", attachments)
+            print(self.kwargs["pk"])
+            if self.kwargs["pk"] in attachments:
+                return attachments[self.kwargs["pk"]]
 
-class TicketCommentFileCreateView(LoginRequiredMixin, SingleObjectMixin, generic.FormView):
+
+class TicketCommentCreateView(LoginRequiredMixin, SingleObjectMixin, generic.FormView):
     """
     This view processes all POST requests sent to TicketView.
     """
@@ -99,7 +109,7 @@ class TicketCommentFileCreateView(LoginRequiredMixin, SingleObjectMixin, generic
             # save to database
             file.save()
             # add to comment (session data)
-            attachtments[ticket_id].append({"name": file.name, "id": file.id})
+            attachtments[ticket_id].append({"name": file.name, "id": file.id, "url": file.file.url})
             self.request.session["attachments"] = attachtments
 
     def link_attachments(self, comment):
@@ -132,12 +142,11 @@ class TicketView(generic.View):
     """
 
     def get(self, request, *args, **kwargs):
-        print("inside TicketView")
         view = TicketDetailView.as_view()
         return view(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        view = TicketCommentFileCreateView.as_view()
+        view = TicketCommentCreateView.as_view()
         return view(request, *args, **kwargs)
 
 

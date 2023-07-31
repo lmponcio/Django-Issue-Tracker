@@ -5,6 +5,7 @@
 
 
 {% block content %}
+{{ attachments|json_script:"new_comment_attachments" }}
 {% if navigate_to_form %}
     <style>
         html {
@@ -83,7 +84,6 @@
                             {%endfor%}
                         {% endif%}
                     {%endfor%}
-                    {{request.session.attachments}}
                 {% else %}
                     <h4 class="card-title card-title-dash mb-4">Authentication required to comment</h4>
                     <a href="{% url 'login' %}?next={{request.path}}">Log in to add a comment!</a><br>
