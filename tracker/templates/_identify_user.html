@@ -1,8 +1,0 @@
-{% comment %}
-    Usage: {% include "_identify_user.html"  with user=user%}
-{% endcomment %}
-{% if user.first_name and user.last_name %}
-    {{user.first_name}} {{user.last_name}}
-{% else %}
-    {{user.username}}
-{% endif %}

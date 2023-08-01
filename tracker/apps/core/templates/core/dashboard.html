@@ -61,19 +61,6 @@
                               <h4 class="card-title card-title-dash">Team Activity</h4>
                              <p class="card-subtitle card-subtitle-dash">Find below the amounts of open/closed issues and comments in the last 12 days</p>
                             </div>
-                            <div>
-                              <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> This month </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                  <h6 class="dropdown-header">Settings</h6>
-                                  <a class="dropdown-item" href="#">Action</a>
-                                  <a class="dropdown-item" href="#">Another action</a>
-                                  <a class="dropdown-item" href="#">Something else here</a>
-                                  <div class="dropdown-divider"></div>
-                                  <a class="dropdown-item" href="#">Separated link</a>
-                                </div>
-                              </div>
-                            </div>
                           </div>
                           <div class="d-sm-flex align-items-center mt-1 justify-content-between">
                             <div class="d-sm-flex align-items-center mt-4 justify-content-between"><h2 class="me-2 fw-bold">{{ticket_twelve_days_act.total}}</h2><h4 class="me-2">Actions in the last</h4><h4 class="text-success">12 days</h4></div>
@@ -92,11 +79,10 @@
                         <div class="card-body">
                           <div class="d-sm-flex justify-content-between align-items-start">
                             <div>
-                              <h4 class="card-title card-title-dash">Team Workload</h4>
+                              <a href="{%url 'accounts:user_list'%}" style="color: inherit; text-decoration: none;">
+                                <h4 class="card-title card-title-dash">Team Workload</h4>
+                              </a>
                              <p class="card-subtitle card-subtitle-dash">Tasks the team is currently working on</p>
-                            </div>
-                            <div>
-                              <button class="btn btn-primary btn-lg text-white mb-0 me-0" type="button"><i class="mdi mdi-account-plus"></i>Add new member</button>
                             </div>
                           </div>
                           <div class="table-responsive  mt-1">
@@ -119,7 +105,9 @@
                                   </td>
                                   <td>
                                     <!-- issue title (1 is the position in the tuple where the corresponding ticket is located)-->
-                                    <h6>{{user.1.title}}</h6>
+                                    <a href="{%url "core:ticket" user.1.id%}" style="color: inherit; text-decoration: none;">
+                                      <h6>{{user.1.title}}</h6>
+                                    </a>
                                     <p>{{user.1.content|slice:":25"}} ...</p>
                                   </td>
                                   <td>
@@ -146,7 +134,9 @@
                           <div class="row">
                             <div class="col-lg-12">
                               <div class="d-flex justify-content-between align-items-center">
-                                <h4 class="card-title card-title-dash">Open Issues</h4>
+                                <a href="{%url "core:ticket_list" %}" style="color: inherit; text-decoration: none;">
+                                  <h4 class="card-title card-title-dash">Issues</h4>
+                                </a>
                                 <div class="add-items d-flex mb-0">
                                   <!-- <input type="text" class="form-control todo-list-input" placeholder="What do you need to do today?"> -->
                                   <button class="add btn btn-icons btn-rounded btn-primary todo-list-add-btn text-white me-0 pl-12p"><i class="mdi mdi-plus"></i></button>
@@ -219,65 +209,3 @@
     </div>
 
 {% endblock %}
-
-{% comment block %}
-<h5>All tickets</h5>
-{{ticket_list}}
-<p></p>
-Amount:{{ticket_list|length}}
-<p>---</p>
-<h5>All open tickets</h5>
-{{ticket_list_open}}
-<p></p>
-Amount:{{ticket_list_open|length}}
-<p>---</p>
-<h5>All Closed tickets</h5>
-{{ticket_list_closed}}
-<p></p>
-Amount:{{ticket_list_closed|length}}
-
-<p>---</p>
-<h5>Latest 4 open tickets</h5>
-{{ticket_list_open|slice:":4"}}
-<p></p>
-<!-- no need for this one anyway -->
-Amount:{{ticket_list_open|slice:":4"|length}}
-
-<p>---</p>
-<h5>this week stats</h5>
-This week opened: {{ticket_this_week.opened|length}} <br>
-This week closed: {{ticket_this_week.closed|length}}
-
-<p>---</p>
-<h5>Average closing time</h5>
-Average: {{ticket_avg_closing_time}}
-
-<p>---</p>
-<h5>12 days</h5>
-Opened: 
-<br>
-{% for ticket in ticket_twelve_days_act.opened %}
----{{ticket.pub_date}} <br>
-{% endfor %}
-Closed:
-<br>
-{% for ticket in ticket_twelve_days_act.closed %}
----{{ticket.close_date}} <br>
-{% endfor %}
-
-<p>---</p>
-<h5>Label amounts</h5>
-{{label_amounts}}
-
-
-<p>---</p>
-<h5>Users amount</h5>
-{{user_amount}}
-<p>---</p>
-<h5>Users with open tickets</h5>
-{{user_list_with_assignments}}
-<!-- <h5>User with open tickets</h5>
-    {% for user in users_with_open_tickets %}
-    ---{{user.username}} <br>
-    {% endfor %}  -->
-{% endcomment %}

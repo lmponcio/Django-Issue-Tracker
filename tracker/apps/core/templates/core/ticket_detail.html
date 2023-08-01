@@ -25,7 +25,7 @@
         <div class="card mb-3">
             <div class="card-body">
                 <div id="ticket-detail">
-                    <h3 class="card-title card-title-dash mb-4">{{ticket.title}}</h4>
+                    <h4 class="card-title card-title-dash mb-4">{{ticket.title}}</h4>
                     <p class="mb-5">{{ticket.content}}</p>
                     <p class="text-end mb-4">
                         <strong>{{ticket.author}}</strong><br>
@@ -92,28 +92,68 @@
         </div>        
     </div>
     <div class="col-lg-4 grid-margin">
-        <div class="card">
-        <div class="card-body mt-2">
-            <div class="text-center">
-                <img class="w-50 img-md rounded-circle" src="{% include "_identify_image.html"  with user=user%}" alt="">
-            </div>
-            <div class="text-center">
-                <h4 class="display-5 mt-3">
-                    {% include "_identify_user.html"  with user=user%}
-                </h4>
-                <p class="card-description">
-                    {% include "_identify_position.html"  with user=user%}
-                </p>
-            </div>
-            <div class="text-center row d-flex justify-content-center mt-1">
-                <form action="{% url 'accounts:profile' user %}" method="get">
-                    <button type="submit" name="status" value="Open" class="w-75 my-2 btn btn-secondary btn-rounded">Open Issues</button>            
-                </form>
-                <form action="{% url 'accounts:profile' user %}" method="get">
-                    <button type="submit" name="status" value="Closed" class="w-75 my-2 btn btn-secondary btn-rounded">Closed Issues</button>
-                </form>
-            </div>
-        </div>
+        <div class="card mb-3">
+            <div id="ticket-details" class="card-body">
+                <div class="d-sm-flex justify-content-between align-items-start">
+                    <div>
+                      <h4 class="card-title card-title-dash mb-4">Ticket Detail</h4>
+                     <!-- <p class="card-subtitle card-subtitle-dash">Tasks the team is currently working on</p> -->
+                    </div>
+                    <div>
+                      <button class="btn btn-primary btn-sm text-white mb-0 me-0" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                        </svg>
+                        &nbsp&nbsp
+                        Edit
+                    </button>
+                    </div>
+                  </div>                
+                <!-- <h4 class="card-title card-title-dash mb-4">Ticket Detail</h4>
+                <div>
+                    <button class="btn btn-primary btn-lg text-white mb-0 me-0" type="button"><i class="mdi mdi-account-plus"></i>Add new member</button>
+                </div> -->
+                <div id="ticket-status" class="row my-2">
+                    <div class="col-sm-6">
+                        <strong>Status</strong>
+                    </div>
+                    <div class="col-sm-6">
+                            {{ticket.status}} <br>
+                    </div>  
+                </div>                                
+                <div id="ticket-assignees" class="row my-2">
+                    <div class="col-sm-6">
+                        <strong>Assignees</strong>
+                    </div>
+                    <div class="col-sm-6">
+                        {%for assignee in ticket.assignees.all%}
+                            <a href="{%url "accounts:profile" assignee%}" style="color: inherit; text-decoration: none;">
+                                {{assignee.best_name}} <br>
+                            </a>
+                        {%endfor%}
+                    </div>  
+                </div>
+                <div id="ticket-labels" class="row my-2">
+                    <div class="col-sm-6">
+                        <strong>Labels</strong>
+                    </div>
+                    <div class="col-sm-6">
+                        {%for label in ticket.labels.all%}
+                            {{label}} <br>
+                        {%endfor%}
+                    </div>  
+                </div>
+                <div id="ticket-labels" class="row my-2">
+                    <div class="col-sm-6">
+                        <strong>Created by</strong>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="{%url "accounts:profile" ticket.author%}" style="color: inherit; text-decoration: none;">
+                            {{ticket.author.best_name}}
+                        </a>
+                    </div>  
+                </div>                                
+            </div>            
         </div>
     </div>
 </div>

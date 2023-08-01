@@ -25,6 +25,13 @@ class CustomUser(AbstractUser):
     def closed_tickets(self):
         return self.assigned_tickets.filter(status__name="Closed").order_by("-pub_date")
 
+    @property
+    def best_name(self):
+        if self.first_name and self.last_name:
+            return " ".join([self.first_name, self.last_name])
+        else:
+            return self.username
+
     @classmethod
     def get_users_with_assignments(cls):
         uwa = []
@@ -36,7 +43,4 @@ class CustomUser(AbstractUser):
         return uwa
 
     def __str__(self):
-        if self.first_name and self.last_name:
-            return " ".join([self.first_name, self.last_name])
-        else:
-            return self.username
+        return self.username

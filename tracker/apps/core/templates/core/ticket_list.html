@@ -23,20 +23,28 @@
                 {% for ticket in ticket_list %}
                 <tr>
                     <td>
-                        <h6>{{ticket.id}}</h6>
+                        <a href="{%url "core:ticket" ticket.id%}" style="color: inherit; text-decoration: none;">
+                            <h6>{{ticket.id}}</h6>
+                        </a>
                     </td>
                     <td>
-                        <h6>{{ticket.title}}</h6>
-                        <p>{{ticket.content|slice:":20"}} ...</p>                        
+                        <a href="{%url "core:ticket" ticket.id%}" style="color: inherit; text-decoration: none;">
+                            <h6>{{ticket.title}}</h6>
+                            <p>{{ticket.content|slice:":20"}} ...</p>                        
+                        </a>
                     </td>   
                     <td>
-                        <p>
-                            {% include "_identify_user.html" with user=ticket.author %}
-                        </p>
+                        <a href="{%url "accounts:profile" ticket.author%}" style="color: inherit; text-decoration: none;">
+                            <p>
+                                {{ticket.author.best_name}}
+                            </p>
+                        </a>
                     </td>        
                     <td>
                         {%for assignee in ticket.assignees.all%}
-                        <p>{% include "_identify_user.html" with user=assignee %}</p>                        
+                        <a href="{%url "accounts:profile" assignee%}" style="color: inherit; text-decoration: none;">
+                            <p>{{assignee.best_name}}</p>                        
+                        </a>
                         {%endfor%}
                     </td>                                           
                     <td>

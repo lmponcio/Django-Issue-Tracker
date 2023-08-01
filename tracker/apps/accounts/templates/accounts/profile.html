@@ -10,7 +10,7 @@
                 </div>
                 <div class="text-center">
                     <h4 class="display-5 mt-3">
-                        {% include "_identify_user.html"  with user=user%}
+                        {{user.best_name}}
                     </h4>
                     <p class="card-description">
                         {% include "_identify_position.html"  with user=user%}
@@ -56,11 +56,15 @@
                     {% for ticket in tickets %}
                     <tr>
                         <td class="py-1">
-                            <h6>{{ticket.id}}</h6>
+                            <a href="{%url "core:ticket" ticket.id%}" style="color: inherit; text-decoration: none;">
+                                <h6>{{ticket.id}}</h6>
+                            </a>
                         </td>
                         <td>
-                            <h6>{{ticket.title}}</h6>
-                            <p>{{ticket.content|slice:":35"}} ...</p>                        
+                            <a href="{%url "core:ticket" ticket.id%}" style="color: inherit; text-decoration: none;">
+                                <h6>{{ticket.title}}</h6>
+                                <p>{{ticket.content|slice:":35"}} ...</p>                        
+                            </a>
                         </td>   
                         <td>
                             <p>{{ticket.pub_date}}</p>                        
