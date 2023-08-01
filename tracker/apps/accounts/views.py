@@ -9,10 +9,14 @@ from .forms import CustomUserCreationForm
 from django.http import HttpResponse
 
 
-class CreateAccountView(CreateView):
+class CustomUserListView(generic.ListView):
+    model = CustomUser
+
+
+class CreateAccountView(LoginRequiredMixin, CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy("login")
-    template_name = "accounts/createAccount.html"
+    template_name = "accounts/create_account.html"
 
 
 class ProfileView(LoginRequiredMixin, generic.DetailView):
@@ -23,3 +27,10 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
     template_name = "accounts/profile.html"
     context_object_name = "user"
     slug_field = "username"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        status = "Closed" if self.request.GET.get("status") == "Closed" else "Open"
+        context["status"] = status
+        context["tickets"] = self.object.assigned_tickets.filter(status__name=status).order_by("-pub_date")
+        return context

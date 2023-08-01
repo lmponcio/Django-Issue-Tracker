@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.db.models import F, Avg
 from django.core.validators import MinValueValidator, MaxValueValidator
 from tracker.apps.accounts.models import CustomUser
+from .utils import file_path
 
 
 class TimeStampedModel(models.Model):
@@ -115,19 +116,29 @@ class Ticket(TimeStampedModel):
         }
 
     @property
+    def string_id(self):
+        return str(self.id)
+
+    @property
     def stage(self):
         """String representing the stage the task is at
 
-        This stage appears in the dashboard as STATUS.
-        It depends on the progress of the task
+        This string provides insights regarding the level of
+        advancement of the ticket. Its value depends on the
+        `status` and `progress` of the ticket.
         """
         comments = self.ticketcomment_set.all()
-        if self.progress > 65:
-            return "Close to Completion"
-        elif 20 < self.progress < 65:
-            return "In Progress"
+        if self.status.name == "Closed":
+            # One stage when ticket Closed
+            return "Closed"
         else:
-            return "Pending"
+            # Three different stages when ticket Open
+            if 65 < self.progress:
+                return "Close to Completion"
+            elif 20 < self.progress < 65:
+                return "In Progress"
+            else:
+                return "Pending"
 
     def get_absolute_url(self):
         return reverse("core:ticket-detail", kwargs={"pk": self.id})
@@ -155,6 +166,26 @@ class Ticket(TimeStampedModel):
 
 
 class TicketComment(TimeStampedModel):
-    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, related_name="comments")
     author = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
     content = models.TextField(max_length=2000)
+    pub_date = models.DateTimeField(null=True, blank=True, default=None)
+
+
+class TicketFile(models.Model):
+    file = models.FileField(upload_to=file_path)
+    name = models.CharField(max_length=260)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, related_name="files")
+
+
+class TicketCommentFile(TimeStampedModel):
+    file = models.FileField(upload_to=file_path)
+    name = models.CharField(max_length=260, blank=True)
+    comment = models.ForeignKey(TicketComment, on_delete=models.CASCADE, related_name="files", blank=True, null=True)
+
+    @property
+    def minutes_since_creation(self):
+        return (timezone.now() - self.created).total_seconds() / 60
+
+    def __str__(self):
+        return self.name

@@ -1,20 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from tracker.apps.core.utils import hash_filename
 from django.utils import timezone
-import hashlib
-
-
-def hash_filename(string):
-    """
-    Returns a hashed filename based on an input string
-    """
-
-    string_bytes = string.encode("utf-8")
-    sha256_hash = hashlib.sha256()
-    sha256_hash.update(string_bytes)
-    hashed_filename = sha256_hash.hexdigest()
-
-    return hashed_filename
 
 
 def profile_img_path(instance, filename):
@@ -23,13 +10,27 @@ def profile_img_path(instance, filename):
     """
     timestamp = timezone.now()
     timestamp_string = timestamp.strftime("%Y-%m-%d_%H:%M:%S")
-    return hash_filename(f"{instance.username}{timestamp_string}")
+    return "profile_images/" + hash_filename(f"{instance.username}{timestamp_string}")
 
 
-# Create your models here.
 class CustomUser(AbstractUser):
     profile_image = models.ImageField(blank=True, upload_to=profile_img_path)
     position = models.CharField(max_length=50, null=True, blank=True)
+
+    @property
+    def open_tickets(self):
+        return self.assigned_tickets.filter(status__name="Open").order_by("-pub_date").select_related()
+
+    @property
+    def closed_tickets(self):
+        return self.assigned_tickets.filter(status__name="Closed").order_by("-pub_date")
+
+    @property
+    def best_name(self):
+        if self.first_name and self.last_name:
+            return " ".join([self.first_name, self.last_name])
+        else:
+            return self.username
 
     @classmethod
     def get_users_with_assignments(cls):

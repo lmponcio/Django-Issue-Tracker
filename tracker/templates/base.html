@@ -9,6 +9,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Issue Tracker </title>
   <!-- plugins:css -->
+  <!-- OK for crispy forms-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <!-- OK -->
   <link rel="stylesheet" href="{% static "vendors/feather/feather.css" %}">
   <!-- OK -->
@@ -32,7 +34,7 @@
   <div class="container-scroller">
     <!-- PLACEHOLDER - Here used to be the pro banner -->
     <!-- partial:partials/_navbar.html -->
-    {% include './nav.html' %}
+    {% include './_nav.html' %}
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_settings-panel.html -->
@@ -41,11 +43,13 @@
       <!-- partial -->
       <!-- partial:partials/_sidebar.html -->
 
-      {% include './nav_off_canvas.html' %}
+      {% include './_nav_off_canvas.html' %}
       <!-- partial -->
       <div class="main-panel">
         <!-- PLACEHOLDER FOR BLOCK - BLOCK NEEDS TO BE IN A CONTENT WRAPPER -->
-        {% block content %}{% endblock %}
+        <div class="content-wrapper">
+          {% block content %}{% endblock %}
+        </div>        
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <footer class="footer">

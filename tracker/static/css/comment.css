@@ -1,0 +1,7 @@
+.droparea {}
+
+.hover {
+    /* color: #b50b0b; */
+    border: 1px dashed #0d6efd;
+    background-color: #d6e7ff;
+}

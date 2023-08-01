@@ -1,5 +1,92 @@
 {% extends 'base.html' %}
+
 {% block content %}
+    <div class="row">
+        <div class="col-lg-4 grid-margin">
+            <div class="card">
+            <div class="card-body mt-2">
+                <div class="text-center">
+                    <img class="w-50 img-md rounded-circle" src="{% include "_identify_image.html"  with user=user%}" alt="">
+                </div>
+                <div class="text-center">
+                    <h4 class="display-5 mt-3">
+                        {{user.best_name}}
+                    </h4>
+                    <p class="card-description">
+                        {% include "_identify_position.html"  with user=user%}
+                    </p>
+                </div>
+                <div class="text-center row d-flex justify-content-center mt-1">
+                    <form action="{% url 'accounts:profile' user %}" method="get">
+                        <button type="submit" name="status" value="Open" class="w-75 my-2 btn btn-secondary btn-rounded">Open Issues</button>            
+                    </form>
+                    <form action="{% url 'accounts:profile' user %}" method="get">
+                        <button type="submit" name="status" value="Closed" class="w-75 my-2 btn btn-secondary btn-rounded">Closed Issues</button>
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="col-lg-8 grid-margin">
+            <div class="card">
+            <div class="card-body">
+                <h4 class="card-title card-title-dash">{{status}} Assigned Issues</h4>
+                <div class="table-responsive mt-1">
+                <table class="table select-table">
+                    <thead>
+                    <tr>
+                        <th>
+                        ID
+                        </th>
+                        <th>
+                        Content
+                        </th>                    
+                        <th>
+                        Date Opened
+                        </th>
+                        <th>
+                        Progress
+                        </th>
+                        <th>
+                        Status
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ticket in tickets %}
+                    <tr>
+                        <td class="py-1">
+                            <a href="{%url "core:ticket" ticket.id%}" style="color: inherit; text-decoration: none;">
+                                <h6>{{ticket.id}}</h6>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{%url "core:ticket" ticket.id%}" style="color: inherit; text-decoration: none;">
+                                <h6>{{ticket.title}}</h6>
+                                <p>{{ticket.content|slice:":35"}} ...</p>                        
+                            </a>
+                        </td>   
+                        <td>
+                            <p>{{ticket.pub_date}}</p>                        
+                        </td>
+                        <td>
+                            {% include "_progress_div.html" with ticket=ticket %}                                        
+                        </td>      
+                        <td>
+                            {% include "_stage_div.html" with ticket=ticket %}
+                        </td>                                                      
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+{% endblock content%}
+
+{% comment block %}
     <h2>Your profile, {{user.username}}</h2>
     <p>{{user.email}}</p>
 
@@ -8,4 +95,4 @@
         <li>{{ticket.title}}</li>
     {% endfor %}
     </ul>
-{% endblock %}
+{% endcomment %}

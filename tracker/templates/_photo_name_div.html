@@ -1,0 +1,14 @@
+{% comment %}
+    Usage: {% include "_photo_name_div.html"  with user=user%}
+{% endcomment %}
+<div  class="d-flex ">
+    <img src="{% include "_identify_image.html"  with user=user%}" alt="">
+    <div>
+        <a href="{%url "accounts:profile" user%}" style="color: inherit; text-decoration: none;">
+            <h6>{{user.best_name}}</h6>
+        </a>
+      <p>
+        {% include "_identify_position.html"  with user=user%}
+      </p>
+    </div>
+  </div>

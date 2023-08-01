@@ -1,55 +1,162 @@
 {% extends "base.html" %}
 
+{% load static %}
+{% load crispy_forms_tags %}
+
+
 {% block content %}
-<h2>Ticket Detail</h2>
+{{ attachments|json_script:"new_comment_attachments" }}
+{% if navigate_to_form %}
+    <style>
+        html {
+        scroll-behavior: auto !important;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function() {
+        console.log("running the onload one");
+        window.location.hash = "comment_card";
+        }; 
+    </script>
+{% endif %}
 
-<div id="ticket-detail">
-    {% if ticket %}
-            <p>{{ticket.title}}</p>
-            <p>{{ticket.content}}</p>
-    {% else %}
-        <p>No Tickets Found</p>
-    {% endif %}
-</div>
-<!-- COMMENTS  -->
-<div id="ticket-comments">
-    {% if comments %}
-    <strong class="text-secondary">{{ object.number_of_comments }} Comment{{ object.number_of_comments|pluralize }}</strong>
-    <hr> <!-- horizontal line  --> 
-    <ul>
-        {% for comment in comments %}
-        <li>           
-            <div>
-                <span>
-                    <strong class="text-info">{{ comment.author }} </strong>
-                    <small class="text-muted">{{ comment.date_posted }}</small>
-                </span>
-                <p>
-                    {{ comment.content|safe }}
-                </p>
+<div class="row">
+    <div class="col-lg-8 grid-margin">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div id="ticket-detail">
+                    <h4 class="card-title card-title-dash mb-4">{{ticket.title}}</h4>
+                    <p class="mb-5">{{ticket.content}}</p>
+                    <p class="text-end mb-4">
+                        <strong>{{ticket.author}}</strong><br>
+                        <span class="card-description mb-1 text-end">Created on {{ticket.pub_date}}</span>    
+                    </p>
+                </div>
+                {% if comments %}
+                    {% for comment in comments %}
+                        <hr style="border-width:0;color:#76838f;background-color:#76838f"> 
+                        <div id="ticket-comment">
+                            <div class="row">
+                                <p><strong>Comment</strong></p>
+                                <p class="mb-5">{{comment.content}}</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    {%for file in comment.files.all%}
+                                        <button class="btn btn-link btn-sm p-1" onclick="location.href='{{file.file.url}}';">{{file.name}}</button>
+                                    {%endfor%}
+                                </div>
+                                <div class="col-lg-6">
+                                    <p class="text-end mb-4">
+                                        <strong>{{ comment.author }}</strong><br>
+                                        <span class="card-description mb-1 text-end">Commented on {{comment.pub_date}}</span>    
+                                    </p>
+                                </div>                                
+                            </div>
+                        </div>
+                    {%endfor%}
+                {% endif %}
             </div>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <strong class="text-secondary">No comments yet...</strong>
-    {% endif %}
-    
-    <h2>Comment Below:</h2>
-    {% if user.is_authenticated %}
-    <form method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-            {{ comment_form }}
-            <button type="submit">Add comment <i class="fas fa-comments"></i></button>
         </div>
-    </form>
-    {% else %}
-    <a href="{% url 'login' %}?next={{request.path}}">Log in to add a comment!</a><br>
-    {% endif %}
-    
-    
+        <!--  -->
+        <div class="card" id="comment_card">
+            <div class="card-body">
+                {% if user.is_authenticated %}
+                    <h4 class="card-title card-title-dash mb-4">Add a comment</h4>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{comment_form|crispy}}
+                            <button type="submit" class="btn btn-success">Add comment <i class="fas fa-comments"></i></button>
+                        </div>
+                    </form>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{file_form|crispy}}
+                            <button type="submit" class="btn btn-success">Add file <i class="fas fa-comments"></i></button>
+                        </div>
+                    </form> 
+                    {%for id, attachment_set in request.session.attachments.items %} 
+                        {% if id == ticket.string_id %}
+                            {%for attachment in attachment_set%}
+                                {{attachment.name}} <br>
+                            {%endfor%}
+                        {% endif%}
+                    {%endfor%}
+                {% else %}
+                    <h4 class="card-title card-title-dash mb-4">Authentication required to comment</h4>
+                    <a href="{% url 'login' %}?next={{request.path}}">Log in to add a comment!</a><br>
+                {% endif %}
+            </div>
+        </div>        
+    </div>
+    <div class="col-lg-4 grid-margin">
+        <div class="card mb-3">
+            <div id="ticket-details" class="card-body">
+                <div class="d-sm-flex justify-content-between align-items-start">
+                    <div>
+                      <h4 class="card-title card-title-dash mb-4">Ticket Detail</h4>
+                     <!-- <p class="card-subtitle card-subtitle-dash">Tasks the team is currently working on</p> -->
+                    </div>
+                    <div>
+                      <button class="btn btn-primary btn-sm text-white mb-0 me-0" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                        </svg>
+                        &nbsp&nbsp
+                        Edit
+                    </button>
+                    </div>
+                  </div>                
+                <!-- <h4 class="card-title card-title-dash mb-4">Ticket Detail</h4>
+                <div>
+                    <button class="btn btn-primary btn-lg text-white mb-0 me-0" type="button"><i class="mdi mdi-account-plus"></i>Add new member</button>
+                </div> -->
+                <div id="ticket-status" class="row my-2">
+                    <div class="col-sm-6">
+                        <strong>Status</strong>
+                    </div>
+                    <div class="col-sm-6">
+                            {{ticket.status}} <br>
+                    </div>  
+                </div>                                
+                <div id="ticket-assignees" class="row my-2">
+                    <div class="col-sm-6">
+                        <strong>Assignees</strong>
+                    </div>
+                    <div class="col-sm-6">
+                        {%for assignee in ticket.assignees.all%}
+                            <a href="{%url "accounts:profile" assignee%}" style="color: inherit; text-decoration: none;">
+                                {{assignee.best_name}} <br>
+                            </a>
+                        {%endfor%}
+                    </div>  
+                </div>
+                <div id="ticket-labels" class="row my-2">
+                    <div class="col-sm-6">
+                        <strong>Labels</strong>
+                    </div>
+                    <div class="col-sm-6">
+                        {%for label in ticket.labels.all%}
+                            {{label}} <br>
+                        {%endfor%}
+                    </div>  
+                </div>
+                <div id="ticket-labels" class="row my-2">
+                    <div class="col-sm-6">
+                        <strong>Created by</strong>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="{%url "accounts:profile" ticket.author%}" style="color: inherit; text-decoration: none;">
+                            {{ticket.author.best_name}}
+                        </a>
+                    </div>  
+                </div>                                
+            </div>            
+        </div>
+    </div>
 </div>
-
-
-{% endblock %}
+<script src="{% static "js/comment.js" %}"></script>
+<link rel="stylesheet" href="{% static "css/comment.css" %}">
+{% endblock content %}

@@ -1,0 +1,9 @@
+{% if ticket.stage == "Pending" %}
+<div class="badge badge-opacity-danger">Pending</div>
+{% elif ticket.stage == "In Progress" %}
+<div class="badge badge-opacity-warning">In progress</div>  
+{% elif ticket.stage == "Close to Completion" %}
+  <div class="badge badge-opacity-success">Close to Completion</div>
+{% elif ticket.stage == "Closed" %}
+<div class="badge badge-opacity-light">Closed</div>
+{% endif %}

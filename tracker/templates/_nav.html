@@ -1,0 +1,77 @@
+{% load static %}
+    <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
+        <div class="me-3">
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
+            <span class="icon-menu"></span>
+          </button>
+        </div>
+        <div>
+          <a class="navbar-brand brand-logo" href="{%url 'core:dashboard'%}">
+            <img src="{% static "images/logo.svg" %}" alt="logo" />
+          </a>
+          <a class="navbar-brand brand-logo-mini" href="{%url 'core:dashboard'%}">
+            <img src="{% static "images/logo-mini.svg" %}" alt="logo" />
+          </a>
+        </div>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-top"> 
+        <ul class="navbar-nav">
+          {% if user.is_authenticated %}
+          <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
+            <h1 class="welcome-text">Welcome, <span class="text-black fw-bold">{{ user.first_name }} {{ user.last_name }}</span></h1>
+            <h3 class="welcome-sub-text">Your team stats are ready for review</h3>
+          </li>          
+          {% else %}
+          <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
+            <h1 class="welcome-text">Welcome, <span class="text-black fw-bold">Guest</span></h1>
+            <h3 class="welcome-sub-text">Log in for full access CRUD access, otherwise you can navigate with read permissions only</h3>
+          </li>
+          {% endif %}          
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            {% include "_ticket_search.html" %}
+          </li>
+          <li class="nav-item dropdown d-none d-lg-block user-dropdown">
+            <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+              {% if user.profile_image %}
+              <img class="img-xs rounded-circle" src="{{ user.profile_image.url }}" alt="Profile image"> </a>
+              {% else %}
+              <img class="img-xs rounded-circle" src="{% static "images/default_profile_picture.jpg" %}" alt="Profile image"> </a>
+              {% endif %}
+              <!-- <img class="img-xs rounded-circle" src="{% static "images/faces/face8.jpg" %}" alt="Profile image"> </a> -->
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+              <div class="dropdown-header text-center">
+                <img class="img-xs rounded-circle" src="{% include "_identify_image.html"  with user=user%}" alt="Profile image">
+
+
+                {% if user.is_authenticated %}
+                  <p class="mb-1 mt-3 font-weight-semibold">
+                    {{user.best_name}}
+                  </p>
+                {% else %}
+                  <p class="mb-1 mt-3 font-weight-semibold">
+                    Guest
+                  </p>
+                {% endif %}
+                <!-- <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p> -->
+                <!-- <img class="img-md rounded-circle" src="{% static "images/faces/face8.jpg" %}" alt="Profile image"> -->
+              </div>
+              {% if user.is_authenticated %}
+                <a href="{%url "accounts:profile" user%}" class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile</a>
+                <a href="{%url "logout"%}" class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+              {%else%}
+                <a href="{%url "login"%}" class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign In</a>
+              {% endif %}
+              <!-- <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a> -->
+              <!-- <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a> -->
+              <!-- <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a> -->
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas">
+          <span class="mdi mdi-menu"></span>
+        </button>
+      </div>
+    </nav>
