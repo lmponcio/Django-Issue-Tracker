@@ -8,10 +8,12 @@
         </div>
         <div>
           <a class="navbar-brand brand-logo" href="{%url 'core:dashboard'%}">
-            <img src="{% static "images/logo.svg" %}" alt="logo" />
+            <!-- <img src="{% static "images/logo.svg" %}" alt="logo" /> -->
+            <img src="{% static "images/logo.png" %}" alt="logo" />
           </a>
           <a class="navbar-brand brand-logo-mini" href="{%url 'core:dashboard'%}">
-            <img src="{% static "images/logo-mini.svg" %}" alt="logo" />
+            <!-- <img src="{% static "images/logo-mini.svg" %}" alt="logo" /> -->
+            <img src="{% static "images/logo-mini.png" %}" alt="logo" />
           </a>
         </div>
       </div>
@@ -33,12 +35,19 @@
           <li class="nav-item">
             {% include "_ticket_search.html" %}
           </li>
+          <li class="nav-item">
+            <form action="{% url 'core:ticket_create'%}" method="get">
+              <button class="btn btn-primary btn-md text-white mx-2" type="submit">
+                <strong>Create</strong>
+            </button>
+          </form>            
+          </li>
           <li class="nav-item dropdown d-none d-lg-block user-dropdown">
             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
               {% if user.profile_image %}
               <img class="img-xs rounded-circle" src="{{ user.profile_image.url }}" alt="Profile image"> </a>
               {% else %}
-              <img class="img-xs rounded-circle" src="{% static "images/default_profile_picture.jpg" %}" alt="Profile image"> </a>
+              <img class="img-xs rounded-circle" src="{% static "images/default_profile_picture.png" %}" alt="Profile image"> </a>
               {% endif %}
               <!-- <img class="img-xs rounded-circle" src="{% static "images/faces/face8.jpg" %}" alt="Profile image"> </a> -->
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">

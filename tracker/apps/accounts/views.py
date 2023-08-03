@@ -19,7 +19,7 @@ class CreateAccountView(LoginRequiredMixin, CreateView):
     template_name = "accounts/create_account.html"
 
 
-class ProfileView(LoginRequiredMixin, generic.DetailView):
+class ProfileView(generic.DetailView):
     # for LoginRequiredMixin
     login_url = "login"
     # for Detail view

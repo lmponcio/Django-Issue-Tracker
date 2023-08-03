@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.views import generic
@@ -168,9 +168,36 @@ class DashboardView(TicketListView):
 
 class TicketCreateView(LoginRequiredMixin, generic.CreateView):
     model = Ticket
-    fields = ["assignees", "title", "content"]
+    fields = ["assignees", "labels", "title", "content"]
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.instance.status = TicketStatus.objects.get(name="Open")
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy("core:ticket", kwargs={"pk": self.object.pk})
+
+
+class TicketUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Ticket
+    fields = ["assignees", "labels", "title", "content", "progress", "status"]
+
+    def get_success_url(self):
+        return reverse_lazy("core:ticket", kwargs={"pk": self.object.pk})
+
+
+def custom_page_not_found_view(request, exception):
+    return render(request, "errors/404.html", {})
+
+
+def custom_error_view(request, exception=None):
+    return render(request, "errors/500.html", {})
+
+
+def custom_permission_denied_view(request, exception=None):
+    return render(request, "errors/403.html", {})
+
+
+def custom_bad_request_view(request, exception=None):
+    return render(request, "errors/400.html", {})

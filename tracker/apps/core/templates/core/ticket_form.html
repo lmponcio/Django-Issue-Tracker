@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-
 <form action="" method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="submit">
+    {{ form|crispy }}
+    <!-- <input type="submit" value="submit"> -->
+    <button type="submit" class="btn btn-success" id="button-submit-ticket">Submit <i class="fas fa-comments"></i></button>
 </form>
 
 {% endblock content %}
