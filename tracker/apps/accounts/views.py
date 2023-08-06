@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from .models import CustomUser
 from .forms import CustomUserCreationForm
@@ -17,6 +17,19 @@ class CreateAccountView(LoginRequiredMixin, CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy("login")
     template_name = "accounts/create_account.html"
+
+
+class UpdateAccountView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = CustomUser
+    template_name = "accounts/update_account.html"
+    fields = ["first_name", "last_name"]
+
+    def get_success_url(self):
+        return reverse_lazy("accounts:profile", kwargs={"slug": self.object.username})
+
+    def test_func(self):
+        """Users can only update their own profile"""
+        return self.request.user.pk == int(self.kwargs["pk"])
 
 
 class ProfileView(generic.DetailView):

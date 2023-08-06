@@ -92,8 +92,7 @@ class Ticket(TimeStampedModel):
         (last date string is `TODAY`)
         - "opened" : list of amounts of issues opened in the each of the 12 days
         - "closed" : list of amounts of issues closed in the each of the 12 days
-        - "comments" : list of amounts of comments in issues in each of the 12 days
-        - "total" : total amount of coments+closed+opened
+        - "total" : total amount of closed+opened
         """
 
         deltas = list(range(12))
@@ -105,14 +104,15 @@ class Ticket(TimeStampedModel):
 
         opened = [cls.objects.filter(pub_date__day=day.day).count() for day in dates]
         closed = [cls.objects.filter(close_date__day=day.day).count() for day in dates]
-        comments = [TicketComment.objects.filter(created__day=day.day).count() for day in dates]
+        # comments = [TicketComment.objects.filter(pub_date__day=day.day).count() for day in dates]
 
         return {
             "days": days_formatted,
             "opened": opened,
             "closed": closed,
-            "comments": comments,
-            "total": sum(opened) + sum(closed) + sum(comments),
+            # "comments": comments,
+            # "total": sum(opened) + sum(closed) + sum(comments),
+            "total": sum(opened) + sum(closed),
         }
 
     @property

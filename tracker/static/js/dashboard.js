@@ -373,34 +373,22 @@
         // labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "TODAY"],
         labels: twelveDays.days,
         datasets: [{
-          label: 'Opened',
-          // data: [110, 220, 200, 190, 220, 110, 210, 110, 205, 202, 201, 150],
-          data: twelveDays.opened,
-          backgroundColor: "#52CDFF",
-          borderColor: [
-            '#52CDFF',
-          ],
-          borderWidth: 0,
-          fill: true, // 3: no fill
-
-        }, {
-          label: 'Comments',
-          // data: [110, 220, 200, 190, 220, 110, 210, 110, 205, 202, 201, 150],
-          data: twelveDays.comments,
-          backgroundColor: "#FDD0C7",
-          borderColor: [
-            "#FDD0C7",
-          ],
-          borderWidth: 0,
-          fill: true, // 3: no fill
-
-        }, {
           label: 'Closed',
           // data: [215, 290, 210, 250, 290, 230, 290, 210, 280, 220, 190, 300],
           data: twelveDays.closed,
           backgroundColor: "#1F3BB3",
           borderColor: [
             '#1F3BB3',
+          ],
+          borderWidth: 0,
+          fill: true, // 3: no fill
+        }, {
+          label: 'Opened',
+          // data: [110, 220, 200, 190, 220, 110, 210, 110, 205, 202, 201, 150],
+          data: twelveDays.opened,
+          backgroundColor: "#52CDFF",
+          borderColor: [
+            '#52CDFF',
           ],
           borderWidth: 0,
           fill: true, // 3: no fill
