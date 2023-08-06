@@ -1,6 +1,6 @@
 # Django-Issue-Tracker
 
-I am currently working on branch [features/pages/ui](https://github.com/lmponcio/Django-Issue-Tracker/tree/feature/pages/ui)
+I am currently working on branch [features/nav/ui](https://github.com/lmponcio/Django-Issue-Tracker/tree/feature/nav/ui)
 
 Please find below a screenshot of the dashboard as it's currently looking:
 
