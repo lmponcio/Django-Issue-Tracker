@@ -8,6 +8,7 @@ I worked on a different branch during each sprint so the work can be easily revi
 - Auth
 - CRUD
 - Search functionallity
+- Attachments
 - Querying with ORM (see Dashboard graphs)
 - PostgreSQL
 - CBV
