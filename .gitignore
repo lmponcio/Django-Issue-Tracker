@@ -137,5 +137,6 @@ node_modules/
 # https://stackoverflow.com/questions/28035119/should-i-be-adding-the-django-migration-files-in-the-gitignore-file
 #*migrations/
 
-# fixtures
-*fixtures/
+# fixtures will also be in repo - auxiliary files to have a `notrack_` prefix
+# *fixtures/
+*notrack_*

@@ -33,13 +33,17 @@
                     </div>
                     <div class="d-none d-md-block">
                       <p class="statistics-title">Time Since Last Closed Issue</p>
-                      <h3 class="rate-percentage">{{ticket_list_closed.1.close_date|custom_timesince}}</h3>
+                      {% if ticket_list_closed %}
+                        <h3 class="rate-percentage">{{ticket_list_closed.0.close_date|custom_timesince}}</h3>
+                      {%endif%}
                       <!-- <h3 class="rate-percentage">{{ticket_list_closed.1.close_date|timesince}}</h3> -->
                       <!-- <p class="text-success d-flex"><i class="mdi mdi-menu-down"></i><span>+0.8%</span></p> -->
                     </div>
                     <div class="d-none d-md-block">
                       <p class="statistics-title">Avg. Closing Time</p>
-                      <h3 class="rate-percentage">{{ticket_avg_closing_time|duration}}</h3>
+                      {% if ticket_avg_closing_time %}
+                        <h3 class="rate-percentage">{{ticket_avg_closing_time|duration}}</h3>
+                      {%endif%}
                       <!-- <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>68.8</span></p> -->
                     </div>
                     <div class="d-none d-md-block">
@@ -59,7 +63,7 @@
                           <div class="d-sm-flex justify-content-between align-items-start">
                             <div>
                               <h4 class="card-title card-title-dash">Team Activity</h4>
-                             <p class="card-subtitle card-subtitle-dash">Find below the amounts of open/closed issues and comments in the last 12 days</p>
+                             <p class="card-subtitle card-subtitle-dash">Find below the amounts of opened and closed issues in the last 12 days:</p>
                             </div>
                           </div>
                           <div class="d-sm-flex align-items-center mt-1 justify-content-between">
@@ -137,10 +141,6 @@
                                 <a href="{%url "core:ticket_list" %}" style="color: inherit; text-decoration: none;">
                                   <h4 class="card-title card-title-dash">Issues</h4>
                                 </a>
-                                <div class="add-items d-flex mb-0">
-                                  <!-- <input type="text" class="form-control todo-list-input" placeholder="What do you need to do today?"> -->
-                                  <button class="add btn btn-icons btn-rounded btn-primary todo-list-add-btn text-white me-0 pl-12p"><i class="mdi mdi-plus"></i></button>
-                                </div>
                               </div>
                               <div class="list-wrapper">                             
                                 <!-- second try -->

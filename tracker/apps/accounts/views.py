@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from .models import CustomUser
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.http import HttpResponse
 
 
@@ -19,7 +19,22 @@ class CreateAccountView(LoginRequiredMixin, CreateView):
     template_name = "accounts/create_account.html"
 
 
-class ProfileView(LoginRequiredMixin, generic.DetailView):
+class UpdateAccountView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    # model = CustomUser
+    form_class = CustomUserChangeForm
+    template_name = "accounts/update_account.html"
+    queryset = CustomUser.objects.all()
+    # fields = ["first_name", "last_name", "profile_image"]
+
+    def get_success_url(self):
+        return reverse_lazy("accounts:profile", kwargs={"slug": self.object.username})
+
+    def test_func(self):
+        """Users can only update their own profile"""
+        return self.request.user.pk == int(self.kwargs["pk"])
+
+
+class ProfileView(generic.DetailView):
     # for LoginRequiredMixin
     login_url = "login"
     # for Detail view

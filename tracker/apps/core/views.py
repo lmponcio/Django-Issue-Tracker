@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.views import generic
@@ -155,8 +155,12 @@ class DashboardView(TicketListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["ticket_list_open"] = Ticket.objects.filter(status__name="Open").order_by("-pub_date")
-        context["ticket_list_closed"] = Ticket.objects.filter(status__name="Closed").order_by("-pub_date")
+        context["ticket_list_open"] = (
+            Ticket.objects.filter(status__name="Open").filter(pub_date__lte=timezone.now()).order_by("-pub_date")
+        )  # black formatter adds the parenthesis - https://github.com/psf/black/issues/620
+        context["ticket_list_closed"] = (
+            Ticket.objects.filter(status__name="Closed").filter(close_date__lte=timezone.now()).order_by("-pub_date")
+        )
         context["ticket_this_week"] = Ticket.get_this_week_stats()
         context["ticket_avg_closing_time"] = Ticket.get_avg_closing_time()
         context["ticket_twelve_days_act"] = Ticket.get_twelve_days_activity()
@@ -168,9 +172,37 @@ class DashboardView(TicketListView):
 
 class TicketCreateView(LoginRequiredMixin, generic.CreateView):
     model = Ticket
-    fields = ["assignees", "title", "content"]
+    fields = ["assignees", "labels", "title", "content"]
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.instance.status = TicketStatus.objects.get(name="Open")
+        form.instance.pub_date = timezone.now()
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy("core:ticket", kwargs={"pk": self.object.pk})
+
+
+class TicketUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Ticket
+    fields = ["assignees", "labels", "title", "content", "progress", "status"]
+
+    def get_success_url(self):
+        return reverse_lazy("core:ticket", kwargs={"pk": self.object.pk})
+
+
+def custom_page_not_found_view(request, exception):
+    return render(request, "errors/404.html", {})
+
+
+def custom_error_view(request, exception=None):
+    return render(request, "errors/500.html", {})
+
+
+def custom_permission_denied_view(request, exception=None):
+    return render(request, "errors/403.html", {})
+
+
+def custom_bad_request_view(request, exception=None):
+    return render(request, "errors/400.html", {})

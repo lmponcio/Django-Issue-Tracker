@@ -92,8 +92,7 @@ class Ticket(TimeStampedModel):
         (last date string is `TODAY`)
         - "opened" : list of amounts of issues opened in the each of the 12 days
         - "closed" : list of amounts of issues closed in the each of the 12 days
-        - "comments" : list of amounts of comments in issues in each of the 12 days
-        - "total" : total amount of coments+closed+opened
+        - "total" : total amount of closed+opened
         """
 
         deltas = list(range(12))
@@ -105,15 +104,35 @@ class Ticket(TimeStampedModel):
 
         opened = [cls.objects.filter(pub_date__day=day.day).count() for day in dates]
         closed = [cls.objects.filter(close_date__day=day.day).count() for day in dates]
-        comments = [TicketComment.objects.filter(created__day=day.day).count() for day in dates]
+        # comments = [TicketComment.objects.filter(pub_date__day=day.day).count() for day in dates]
 
         return {
             "days": days_formatted,
             "opened": opened,
             "closed": closed,
-            "comments": comments,
-            "total": sum(opened) + sum(closed) + sum(comments),
+            # "comments": comments,
+            # "total": sum(opened) + sum(closed) + sum(comments),
+            "total": sum(opened) + sum(closed),
         }
+
+    @classmethod
+    def change_all_dates(cls, days_ago_first_pub_date=11):
+        """Method to update pub_date and close_date in all tickets
+
+        This metod is for the purpose of showcasing the application.
+        It doesn't have a real functional purpose. It is just for adjunting
+        the dates so the information is displayed in the dashboard.
+        """
+        tickets = cls.objects.all()
+        new_first_pub_date = timezone.now() - timedelta(days=days_ago_first_pub_date)
+        old_first_pub_date = Ticket.objects.earliest("pub_date").pub_date
+        delta = new_first_pub_date - old_first_pub_date
+        for ticket in tickets:
+            if ticket.pub_date:
+                ticket.pub_date += delta
+            if ticket.close_date:
+                ticket.close_date += delta
+            ticket.save()
 
     @property
     def string_id(self):
@@ -127,42 +146,28 @@ class Ticket(TimeStampedModel):
         advancement of the ticket. Its value depends on the
         `status` and `progress` of the ticket.
         """
-        comments = self.ticketcomment_set.all()
         if self.status.name == "Closed":
             # One stage when ticket Closed
             return "Closed"
         else:
             # Three different stages when ticket Open
-            if 65 < self.progress:
+            if 70 <= self.progress:
                 return "Close to Completion"
-            elif 20 < self.progress < 65:
+            elif 0 < self.progress:
                 return "In Progress"
             else:
                 return "Pending"
+
+    def save(self):
+        if self.status.__str__() == "Closed":
+            self.progress = 100
+        super().save()
 
     def get_absolute_url(self):
         return reverse("core:ticket-detail", kwargs={"pk": self.id})
 
     def __str__(self):
         return self.title
-
-    # I might set up this logic by pre-filling the Form in the view
-    # I just don't want it to publish immediately if I am using the admin
-    #
-    # def save(self, *args, **kwargs):
-    #     # If pub_date not specified, it gets published immediately
-    #     if not self.pub_date:
-    #         self.pub_date = self.created
-    #     super().save(*args, **kwargs)
-
-    # I might use this method, or I could update it in the view
-    #
-    # def update_progress(self, value):
-    #     if 0 <= value <= 100:
-    #         self.progress = value
-    #         self.save()
-    #     else:
-    #         raise ValueError("Invalid progress value. Progress must be between 0 and 100.")
 
 
 class TicketComment(TimeStampedModel):

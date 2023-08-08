@@ -19,5 +19,8 @@
     <div class="progress progress-md">
       <div class="progress-bar bg-success" role="progressbar" style="width: {{ ticket.progress }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
     </div>    
+    {% else %}
+    <p>progress-bar</p>
+    <p>stage: {{ticket.stage}}</p>
     {% endif %}
 </div>

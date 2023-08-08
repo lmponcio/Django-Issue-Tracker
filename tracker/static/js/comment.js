@@ -40,7 +40,10 @@ droparea.addEventListener("drop", (e) => {
 const upload = (file) => {
     console.log("upload being executed")
     const fileInput = document.querySelector("input[type='file']");
-    const form = document.forms[2];
+    // const form = document.forms[2];
+    const form = document.getElementById('file-form');
+
+
 
     // Create a new FileList with the given file
     const fileList = new DataTransfer();
@@ -68,8 +71,12 @@ hiddenForm.classList.add("d-none");
 
 function addFilesReadyToSubmit() {
 
-    const parentElement = document.querySelectorAll('.form-group')[0];
-    const addCommentButton = document.querySelectorAll('button[type="submit"]')[0];
+    // const parentElement = document.querySelectorAll('.form-group')[0];
+    const parentElement = document.getElementById('form-group-comment');
+    const addCommentButton = document.getElementById('button-submit-comment');
+    // const addCommentButton = document.querySelectorAll('button[type="submit"]')[0];
+
+
     addCommentButton.classList.add("mt-2") // crispy forms setup needs a bit more of margin here
 
     const attachments = JSON.parse(document.getElementById("new_comment_attachments").textContent);
