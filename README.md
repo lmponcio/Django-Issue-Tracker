@@ -4,6 +4,15 @@ The project SRS can be found [here](./SRS.md)
 
 I have worked on a different branch for each sprint so the work can be easily reviewed. You can find the branches [here](https://github.com/lmponcio/Django-Issue-Tracker/branches)
 
+#### Skills
+- Auth
+- CRUD
+- Sessions
+- Signals
+- CBV
+- Model Forms
+- Custom Middleware
+
 #### Dashboard
 <img src="./screenshots/dashboard.jpg" width="700" />
 
