@@ -7,7 +7,8 @@ I worked on a different branch during each sprint so the work can be easily revi
 #### Skills applied / Project Features
 - Auth
 - CRUD
-- Search functionallity / Querying with ORM (see Dashboard graphs)
+- Search functionallity
+- Querying with ORM (see Dashboard graphs)
 - PostgreSQL
 - CBV
 - Model Forms
