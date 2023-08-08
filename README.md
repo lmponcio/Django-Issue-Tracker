@@ -1,15 +1,23 @@
 # Django-Issue-Tracker
 
-
-I am currently working on branch [features/nav/ui](https://github.com/lmponcio/Django-Issue-Tracker/tree/feature/nav/ui)
-
-I am currently working on branch [feature/nav/ui](https://github.com/lmponcio/Django-Issue-Tracker/tree/feature/nav/ui)
-
-
-Please find below a screenshot of the dashboard as it's currently looking:
-
-<img src="./screenshots/dashboard.jpg" width="700" />
-
 The project SRS can be found [here](./SRS.md)
 
 I have worked on a different branch for each sprint so the work can be easily reviewed. You can find the branches [here](https://github.com/lmponcio/Django-Issue-Tracker/branches)
+
+#### Dashboard
+<img src="./screenshots/dashboard.jpg" width="700" />
+
+#### Ticket/Issue detail view
+It also contains a form for adding comments.
+<img src="./screenshots/ticket_detail.jpg" width="700" />
+
+#### Profile profile view
+<img src="./screenshots/profile.jpg" width="700" />
+
+#### Login form
+<img src="./screenshots/login_form.jpg" width="700" />
+
+#### Team workload view
+<img src="./screenshots/team_workload.jpg" width="700" />
+
+
