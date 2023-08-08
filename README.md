@@ -7,13 +7,13 @@ I worked on a different branch during each sprint so the work can be easily revi
 #### Skills applied / Project Features
 - Auth
 - CRUD
-- Sessions
-- Signals
-- CBV
 - Search functionallity / Querying with ORM
 - PostgreSQL
+- CBV
 - Model Forms
 - Custom Middleware
+- Sessions
+- Signals
 
 #### Dashboard
 <img src="./screenshots/dashboard.jpg" width="700" />
