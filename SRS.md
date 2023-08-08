@@ -10,7 +10,7 @@ This web app will allow a team to work collaboratively by providing a platform w
 
 - **admin**: oversees the work being done on the platform.
 - **team_member**: works on the tasks linked to the tickets, and the tickets themselves.
-- **guest:** has access to the platform, but only for read purposes.
+- **guest:** has access to the platform, but only for read purposes - no login needed.
 	    
 ### Underlying assumptions or dependencies:
 
@@ -28,19 +28,17 @@ This web app will allow a team to work collaboratively by providing a platform w
 - Tickets status:
 	- OPEN: the task is not finished.
 	- CLOSED: the task is finished.
-	- ON HOLD: the task can't be completed right now.
 - Ticket submission process:
 	- A team_member creates a ticket (status OPEN), and assigns it to one or more team members.
 	- The assigned team members (ticket creator included) start to work in the ticket, sending messages and attachments in it.
 	- Once the task is finished, one of the assigned team members closes the ticket (status CLOSED).
 - Additional features or modules required:
-	* Notifications: to be sent when to user when a ticket liked to them is created or updated. 
 	* File Attachments: files can be uploaded upon ticket creation, or comments in tickets.
-	* Ticket categories: to be managed by admin. By default tickets will be classified as "general".
+	* Ticket labels: to be managed by admin.
 
 ## 4. Project Timeline and Resources:
     
-- The project is expected to be finished in one month.
+- The project is expected to be finished in one month. - *UPDATE: it was finished in one month and one week*
 - I will advance in sprints of 3 to 7 days.
 - Key milestones:
 	1. Project Setup and User Authentication.
