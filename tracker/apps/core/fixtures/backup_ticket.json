@@ -1,0 +1,596 @@
+[
+{
+    "model": "core.ticket",
+    "pk": 1,
+    "fields": {
+        "created": "2023-08-07T04:07:16.691Z",
+        "modified": "2023-08-07T05:07:27.827Z",
+        "author": 1,
+        "status": 2,
+        "title": "Ticket test",
+        "content": "Velit et laudantium autem suscipit omnis cumque. Voluptas ab vitae blanditiis maxime. Similique quaerat molestias consequatur. Dolor accusantium omnis aliquam repellat. Eaque omnis consequatur rem ut commodi odit.\r\n\r\nQui quidem voluptatem ut sunt dolores qui. Quo qui at aut occaecati odio debitis veritatis. Rem accusamus officiis eos nostrum cum est in.",
+        "closed_by": 1,
+        "progress": 100,
+        "pub_date": "2023-07-27T04:06:51Z",
+        "close_date": "2023-07-29T04:06:53Z",
+        "labels": [
+            2
+        ],
+        "assignees": [
+            1
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 2,
+    "fields": {
+        "created": "2023-08-07T05:05:05.662Z",
+        "modified": "2023-08-07T05:07:31.648Z",
+        "author": 1,
+        "status": 2,
+        "title": "Test 2",
+        "content": "Iure sed est fugit et. Aperiam iste provident sunt delectus animi qui accusantium. Delectus corporis nulla temporibus sed quis consequatur repellat qui. Repellendus officia in ad nam qui in placeat. Aut distinctio facilis rerum.",
+        "closed_by": 5,
+        "progress": 100,
+        "pub_date": "2023-07-26T05:05:03Z",
+        "close_date": "2023-07-27T05:05:04Z",
+        "labels": [
+            2
+        ],
+        "assignees": [
+            5
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 3,
+    "fields": {
+        "created": "2023-08-07T05:06:37.971Z",
+        "modified": "2023-08-07T05:10:20.788Z",
+        "author": 1,
+        "status": 2,
+        "title": "Test 3",
+        "content": "Lorem ipsum",
+        "closed_by": null,
+        "progress": 100,
+        "pub_date": "2023-07-27T05:06:23Z",
+        "close_date": "2023-08-07T05:06:24Z",
+        "labels": [
+            2
+        ],
+        "assignees": [
+            5
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 4,
+    "fields": {
+        "created": "2023-08-07T05:11:58.688Z",
+        "modified": "2023-08-07T05:11:58.688Z",
+        "author": 1,
+        "status": 1,
+        "title": "Test 4",
+        "content": "Lorem",
+        "closed_by": null,
+        "progress": 76,
+        "pub_date": "2023-07-28T05:11:48Z",
+        "close_date": null,
+        "labels": [
+            2
+        ],
+        "assignees": [
+            1
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 5,
+    "fields": {
+        "created": "2023-08-07T05:12:53.086Z",
+        "modified": "2023-08-07T05:12:53.086Z",
+        "author": 1,
+        "status": 1,
+        "title": "Test 5",
+        "content": "Lorem",
+        "closed_by": null,
+        "progress": 80,
+        "pub_date": "2023-07-29T05:12:48Z",
+        "close_date": null,
+        "labels": [
+            2
+        ],
+        "assignees": [
+            1
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 6,
+    "fields": {
+        "created": "2023-08-07T05:11:58.688Z",
+        "modified": "2023-08-08T02:32:06.613Z",
+        "author": 1,
+        "status": 1,
+        "title": "Test Open",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "closed_by": null,
+        "progress": 75,
+        "pub_date": "2023-08-02T04:06:51Z",
+        "close_date": null,
+        "labels": [
+            1
+        ],
+        "assignees": [
+            2
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 7,
+    "fields": {
+        "created": "2023-08-07T04:07:16.691Z",
+        "modified": "2023-08-07T05:07:27.827Z",
+        "author": 2,
+        "status": 2,
+        "title": "Test Closed",
+        "content": "Velit et laudantium autem suscipit omnis cumque. Voluptas ab vitae blanditiis maxime. Similique quaerat molestias consequatur. Dolor accusantium omnis aliquam repellat. Eaque omnis consequatur rem ut commodi odit.\r\n\r\nQui quidem voluptatem ut sunt dolores qui. Quo qui at aut occaecati odio debitis veritatis. Rem accusamus officiis eos nostrum cum est in.",
+        "closed_by": 1,
+        "progress": 100,
+        "pub_date": "2023-08-03T04:06:51Z",
+        "close_date": "2023-08-03T04:06:53Z",
+        "labels": [
+            2
+        ],
+        "assignees": [
+            3
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 8,
+    "fields": {
+        "created": "2023-08-07T05:11:58.688Z",
+        "modified": "2023-08-07T05:11:58.688Z",
+        "author": 1,
+        "status": 1,
+        "title": "Issue found",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "closed_by": null,
+        "progress": 53,
+        "pub_date": "2023-07-29T04:06:51Z",
+        "close_date": null,
+        "labels": [
+            3
+        ],
+        "assignees": [
+            5
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 9,
+    "fields": {
+        "created": "2023-08-07T04:07:16.691Z",
+        "modified": "2023-08-07T05:07:27.827Z",
+        "author": 2,
+        "status": 2,
+        "title": "Another Issue",
+        "content": "Velit et laudantium autem suscipit omnis cumque. Voluptas ab vitae blanditiis maxime. Similique quaerat molestias consequatur. Dolor accusantium omnis aliquam repellat. Eaque omnis consequatur rem ut commodi odit.\r\n\r\nQui quidem voluptatem ut sunt dolores qui. Quo qui at aut occaecati odio debitis veritatis. Rem accusamus officiis eos nostrum cum est in.",
+        "closed_by": 1,
+        "progress": 100,
+        "pub_date": "2023-08-04T04:06:51Z",
+        "close_date": "2023-08-06T04:06:53Z",
+        "labels": [
+            2
+        ],
+        "assignees": [
+            2
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 10,
+    "fields": {
+        "created": "2023-08-07T05:11:58.688Z",
+        "modified": "2023-08-07T05:11:58.688Z",
+        "author": 1,
+        "status": 1,
+        "title": "Issue found",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "closed_by": null,
+        "progress": 53,
+        "pub_date": "2023-07-29T04:06:51Z",
+        "close_date": null,
+        "labels": [
+            3
+        ],
+        "assignees": [
+            5
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 11,
+    "fields": {
+        "created": "2023-08-07T05:11:58.688Z",
+        "modified": "2023-08-07T05:11:58.688Z",
+        "author": 1,
+        "status": 1,
+        "title": "Issue found",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "closed_by": null,
+        "progress": 53,
+        "pub_date": "2023-07-29T04:06:51Z",
+        "close_date": null,
+        "labels": [
+            3
+        ],
+        "assignees": [
+            5
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 12,
+    "fields": {
+        "created": "2023-08-07T05:11:58.688Z",
+        "modified": "2023-08-07T05:11:58.688Z",
+        "author": 1,
+        "status": 1,
+        "title": "Issue found",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "closed_by": null,
+        "progress": 75,
+        "pub_date": "2023-07-30T04:06:51Z",
+        "close_date": null,
+        "labels": [
+            3
+        ],
+        "assignees": [
+            2
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 13,
+    "fields": {
+        "created": "2023-08-07T04:07:16.691Z",
+        "modified": "2023-08-07T05:07:27.827Z",
+        "author": 2,
+        "status": 2,
+        "title": "Another Issue",
+        "content": "Velit et laudantium autem suscipit omnis cumque. Voluptas ab vitae blanditiis maxime. Similique quaerat molestias consequatur. Dolor accusantium omnis aliquam repellat. Eaque omnis consequatur rem ut commodi odit.\r\n\r\nQui quidem voluptatem ut sunt dolores qui. Quo qui at aut occaecati odio debitis veritatis. Rem accusamus officiis eos nostrum cum est in.",
+        "closed_by": 1,
+        "progress": 100,
+        "pub_date": "2023-08-06T04:06:51Z",
+        "close_date": "2023-08-07T04:06:53Z",
+        "labels": [
+            2
+        ],
+        "assignees": [
+            1
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 14,
+    "fields": {
+        "created": "2023-08-07T05:11:58.688Z",
+        "modified": "2023-08-07T05:11:58.688Z",
+        "author": 1,
+        "status": 1,
+        "title": "Issue found",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "closed_by": null,
+        "progress": 75,
+        "pub_date": "2023-07-30T04:06:51Z",
+        "close_date": null,
+        "labels": [
+            3
+        ],
+        "assignees": [
+            2
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 15,
+    "fields": {
+        "created": "2023-08-07T05:11:58.688Z",
+        "modified": "2023-08-07T05:11:58.688Z",
+        "author": 1,
+        "status": 1,
+        "title": "Issue found",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "closed_by": null,
+        "progress": 75,
+        "pub_date": "2023-07-30T04:06:51Z",
+        "close_date": null,
+        "labels": [
+            3
+        ],
+        "assignees": [
+            2
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 16,
+    "fields": {
+        "created": "2023-08-07T05:11:58.688Z",
+        "modified": "2023-08-08T02:33:06.094Z",
+        "author": 1,
+        "status": 1,
+        "title": "Bug",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "closed_by": null,
+        "progress": 95,
+        "pub_date": "2023-08-07T04:06:51Z",
+        "close_date": null,
+        "labels": [
+            1
+        ],
+        "assignees": [
+            1
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 17,
+    "fields": {
+        "created": "2023-08-07T04:07:16.691Z",
+        "modified": "2023-08-07T05:07:27.827Z",
+        "author": 2,
+        "status": 2,
+        "title": "Another Issue",
+        "content": "Velit et laudantium autem suscipit omnis cumque. Voluptas ab vitae blanditiis maxime. Similique quaerat molestias consequatur. Dolor accusantium omnis aliquam repellat. Eaque omnis consequatur rem ut commodi odit.\r\n\r\nQui quidem voluptatem ut sunt dolores qui. Quo qui at aut occaecati odio debitis veritatis. Rem accusamus officiis eos nostrum cum est in.",
+        "closed_by": 1,
+        "progress": 100,
+        "pub_date": "2023-08-06T04:06:51Z",
+        "close_date": "2023-08-07T04:06:53Z",
+        "labels": [
+            2
+        ],
+        "assignees": [
+            1
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 18,
+    "fields": {
+        "created": "2023-08-07T05:11:58.688Z",
+        "modified": "2023-08-07T05:11:58.688Z",
+        "author": 1,
+        "status": 1,
+        "title": "Action required",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "closed_by": null,
+        "progress": 0,
+        "pub_date": "2023-07-31T04:06:51Z",
+        "close_date": null,
+        "labels": [
+            1
+        ],
+        "assignees": [
+            3
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 19,
+    "fields": {
+        "created": "2023-08-07T05:11:58.688Z",
+        "modified": "2023-08-07T05:11:58.688Z",
+        "author": 1,
+        "status": 1,
+        "title": "Issue found",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "closed_by": null,
+        "progress": 75,
+        "pub_date": "2023-07-31T04:06:51Z",
+        "close_date": null,
+        "labels": [
+            3
+        ],
+        "assignees": [
+            2
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 20,
+    "fields": {
+        "created": "2023-08-07T05:11:58.688Z",
+        "modified": "2023-08-07T05:11:58.688Z",
+        "author": 1,
+        "status": 1,
+        "title": "Bug",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "closed_by": null,
+        "progress": 65,
+        "pub_date": "2023-08-04T04:06:51Z",
+        "close_date": null,
+        "labels": [
+            1
+        ],
+        "assignees": [
+            1
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 21,
+    "fields": {
+        "created": "2023-08-07T04:07:16.691Z",
+        "modified": "2023-08-07T05:07:27.827Z",
+        "author": 2,
+        "status": 2,
+        "title": "Issue Found",
+        "content": "Velit et laudantium autem suscipit omnis cumque. Voluptas ab vitae blanditiis maxime. Similique quaerat molestias consequatur. Dolor accusantium omnis aliquam repellat. Eaque omnis consequatur rem ut commodi odit.\r\n\r\nQui quidem voluptatem ut sunt dolores qui. Quo qui at aut occaecati odio debitis veritatis. Rem accusamus officiis eos nostrum cum est in.",
+        "closed_by": 1,
+        "progress": 100,
+        "pub_date": "2023-07-28T04:06:51Z",
+        "close_date": "2023-08-01T04:06:53Z",
+        "labels": [
+            2
+        ],
+        "assignees": [
+            1
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 22,
+    "fields": {
+        "created": "2023-08-07T04:07:16.691Z",
+        "modified": "2023-08-07T05:07:27.827Z",
+        "author": 2,
+        "status": 2,
+        "title": "Stuff to fix",
+        "content": "Velit et laudantium autem suscipit omnis cumque. Voluptas ab vitae blanditiis maxime. Similique quaerat molestias consequatur. Dolor accusantium omnis aliquam repellat. Eaque omnis consequatur rem ut commodi odit.\r\n\r\nQui quidem voluptatem ut sunt dolores qui. Quo qui at aut occaecati odio debitis veritatis. Rem accusamus officiis eos nostrum cum est in.",
+        "closed_by": 1,
+        "progress": 100,
+        "pub_date": "2023-07-28T04:06:51Z",
+        "close_date": "2023-08-01T04:06:53Z",
+        "labels": [
+            2
+        ],
+        "assignees": [
+            1
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 23,
+    "fields": {
+        "created": "2023-08-07T04:07:16.691Z",
+        "modified": "2023-08-07T05:07:27.827Z",
+        "author": 2,
+        "status": 2,
+        "title": "Smile, Another Issue!",
+        "content": "Velit et laudantium autem suscipit omnis cumque. Voluptas ab vitae blanditiis maxime. Similique quaerat molestias consequatur. Dolor accusantium omnis aliquam repellat. Eaque omnis consequatur rem ut commodi odit.\r\n\r\nQui quidem voluptatem ut sunt dolores qui. Quo qui at aut occaecati odio debitis veritatis. Rem accusamus officiis eos nostrum cum est in.",
+        "closed_by": 1,
+        "progress": 100,
+        "pub_date": "2023-07-28T04:06:51Z",
+        "close_date": "2023-08-01T04:06:53Z",
+        "labels": [
+            2
+        ],
+        "assignees": [
+            1
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 24,
+    "fields": {
+        "created": "2023-08-07T05:11:58.688Z",
+        "modified": "2023-08-08T02:32:41.640Z",
+        "author": 1,
+        "status": 1,
+        "title": "Action required",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "closed_by": null,
+        "progress": 80,
+        "pub_date": "2023-08-01T04:06:51Z",
+        "close_date": null,
+        "labels": [
+            1
+        ],
+        "assignees": [
+            3
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 25,
+    "fields": {
+        "created": "2023-08-07T05:11:58.688Z",
+        "modified": "2023-08-07T05:11:58.688Z",
+        "author": 1,
+        "status": 1,
+        "title": "Bug",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "closed_by": null,
+        "progress": 65,
+        "pub_date": "2023-08-01T04:06:51Z",
+        "close_date": null,
+        "labels": [
+            1
+        ],
+        "assignees": [
+            3
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 26,
+    "fields": {
+        "created": "2023-08-07T04:07:16.691Z",
+        "modified": "2023-08-07T05:07:27.827Z",
+        "author": 2,
+        "status": 2,
+        "title": "Issue Found",
+        "content": "Velit et laudantium autem suscipit omnis cumque. Voluptas ab vitae blanditiis maxime. Similique quaerat molestias consequatur. Dolor accusantium omnis aliquam repellat. Eaque omnis consequatur rem ut commodi odit.\r\n\r\nQui quidem voluptatem ut sunt dolores qui. Quo qui at aut occaecati odio debitis veritatis. Rem accusamus officiis eos nostrum cum est in.",
+        "closed_by": 1,
+        "progress": 100,
+        "pub_date": "2023-08-01T04:06:51Z",
+        "close_date": "2023-08-05T04:06:53Z",
+        "labels": [
+            2
+        ],
+        "assignees": [
+            3
+        ]
+    }
+},
+{
+    "model": "core.ticket",
+    "pk": 27,
+    "fields": {
+        "created": "2023-08-07T04:07:16.691Z",
+        "modified": "2023-08-07T05:07:27.827Z",
+        "author": 2,
+        "status": 2,
+        "title": "Issue Found",
+        "content": "Velit et laudantium autem suscipit omnis cumque. Voluptas ab vitae blanditiis maxime. Similique quaerat molestias consequatur. Dolor accusantium omnis aliquam repellat. Eaque omnis consequatur rem ut commodi odit.\r\n\r\nQui quidem voluptatem ut sunt dolores qui. Quo qui at aut occaecati odio debitis veritatis. Rem accusamus officiis eos nostrum cum est in.",
+        "closed_by": 1,
+        "progress": 100,
+        "pub_date": "2023-08-01T04:06:51Z",
+        "close_date": "2023-08-05T04:06:53Z",
+        "labels": [
+            2
+        ],
+        "assignees": [
+            3
+        ]
+    }
+}
+]

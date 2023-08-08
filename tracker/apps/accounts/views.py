@@ -5,7 +5,7 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from .models import CustomUser
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.http import HttpResponse
 
 
@@ -20,9 +20,11 @@ class CreateAccountView(LoginRequiredMixin, CreateView):
 
 
 class UpdateAccountView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = CustomUser
+    # model = CustomUser
+    form_class = CustomUserChangeForm
     template_name = "accounts/update_account.html"
-    fields = ["first_name", "last_name"]
+    queryset = CustomUser.objects.all()
+    # fields = ["first_name", "last_name", "profile_image"]
 
     def get_success_url(self):
         return reverse_lazy("accounts:profile", kwargs={"slug": self.object.username})

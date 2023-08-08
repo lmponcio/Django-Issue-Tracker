@@ -1,0 +1,32 @@
+[
+{
+    "model": "core.ticketlabel",
+    "pk": 1,
+    "fields": {
+        "created": "2023-08-07T04:04:56.417Z",
+        "modified": "2023-08-07T04:04:56.417Z",
+        "name": "Application",
+        "description": "Application changes"
+    }
+},
+{
+    "model": "core.ticketlabel",
+    "pk": 2,
+    "fields": {
+        "created": "2023-08-07T04:05:09.159Z",
+        "modified": "2023-08-07T04:05:09.159Z",
+        "name": "Documentation",
+        "description": "Documentation changes"
+    }
+},
+{
+    "model": "core.ticketlabel",
+    "pk": 3,
+    "fields": {
+        "created": "2023-08-07T04:05:26.387Z",
+        "modified": "2023-08-07T04:05:26.387Z",
+        "name": "Testing",
+        "description": "Testing work"
+    }
+}
+]

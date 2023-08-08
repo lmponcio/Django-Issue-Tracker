@@ -155,8 +155,12 @@ class DashboardView(TicketListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["ticket_list_open"] = Ticket.objects.filter(status__name="Open").order_by("-pub_date")
-        context["ticket_list_closed"] = Ticket.objects.filter(status__name="Closed").order_by("-pub_date")
+        context["ticket_list_open"] = (
+            Ticket.objects.filter(status__name="Open").filter(pub_date__lte=timezone.now()).order_by("-pub_date")
+        )  # black formatter adds the parenthesis - https://github.com/psf/black/issues/620
+        context["ticket_list_closed"] = (
+            Ticket.objects.filter(status__name="Closed").filter(close_date__lte=timezone.now()).order_by("-pub_date")
+        )
         context["ticket_this_week"] = Ticket.get_this_week_stats()
         context["ticket_avg_closing_time"] = Ticket.get_avg_closing_time()
         context["ticket_twelve_days_act"] = Ticket.get_twelve_days_activity()

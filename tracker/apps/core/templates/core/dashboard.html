@@ -33,13 +33,17 @@
                     </div>
                     <div class="d-none d-md-block">
                       <p class="statistics-title">Time Since Last Closed Issue</p>
-                      <h3 class="rate-percentage">{{ticket_list_closed.1.close_date|custom_timesince}}</h3>
+                      {% if ticket_list_closed %}
+                        <h3 class="rate-percentage">{{ticket_list_closed.0.close_date|custom_timesince}}</h3>
+                      {%endif%}
                       <!-- <h3 class="rate-percentage">{{ticket_list_closed.1.close_date|timesince}}</h3> -->
                       <!-- <p class="text-success d-flex"><i class="mdi mdi-menu-down"></i><span>+0.8%</span></p> -->
                     </div>
                     <div class="d-none d-md-block">
                       <p class="statistics-title">Avg. Closing Time</p>
-                      <h3 class="rate-percentage">{{ticket_avg_closing_time|duration}}</h3>
+                      {% if ticket_avg_closing_time %}
+                        <h3 class="rate-percentage">{{ticket_avg_closing_time|duration}}</h3>
+                      {%endif%}
                       <!-- <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>68.8</span></p> -->
                     </div>
                     <div class="d-none d-md-block">

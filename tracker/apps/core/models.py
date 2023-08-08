@@ -115,6 +115,25 @@ class Ticket(TimeStampedModel):
             "total": sum(opened) + sum(closed),
         }
 
+    @classmethod
+    def change_all_dates(cls, days_ago_first_pub_date=11):
+        """Method to update pub_date and close_date in all tickets
+
+        This metod is for the purpose of showcasing the application.
+        It doesn't have a real functional purpose. It is just for adjunting
+        the dates so the information is displayed in the dashboard.
+        """
+        tickets = cls.objects.all()
+        new_first_pub_date = timezone.now() - timedelta(days=days_ago_first_pub_date)
+        old_first_pub_date = Ticket.objects.earliest("pub_date").pub_date
+        delta = new_first_pub_date - old_first_pub_date
+        for ticket in tickets:
+            if ticket.pub_date:
+                ticket.pub_date += delta
+            if ticket.close_date:
+                ticket.close_date += delta
+            ticket.save()
+
     @property
     def string_id(self):
         return str(self.id)
