@@ -10,6 +10,8 @@ I worked on a different branch during each sprint so the work can be easily revi
 - Sessions
 - Signals
 - CBV
+- Search functionallity / Querying with ORM
+- PostgreSQL
 - Model Forms
 - Custom Middleware
 
