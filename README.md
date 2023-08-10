@@ -5,17 +5,9 @@ The project SRS can be found [here](./SRS.md)
 I worked on a different branch during each sprint so the work can be easily reviewed. You can find the branches [here](https://github.com/lmponcio/Django-Issue-Tracker/branches)
 
 #### Skills applied / Project Features
-- Auth
-- CRUD
-- Search functionallity
-- Attachments
-- Querying with ORM (see Dashboard graphs)
-- PostgreSQL
-- CBV
-- Model Forms
-- Custom Middleware
-- Sessions
-- Signals
+Auth | CRUD | Search functionallity | Attachments | Querying with ORM | PostgreSQL 
+
+CBV | Model Forms | Custom Middleware | Custom Template tags | Sessions | Signals
 
 #### Dashboard
 <img src="./screenshots/dashboard.jpg" width="700" />
