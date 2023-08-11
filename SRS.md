@@ -30,7 +30,7 @@ This web app will allow a team to work collaboratively by providing a platform w
 	- CLOSED: the task is finished.
 - Ticket submission process:
 	- A team_member creates a ticket (status OPEN), and assigns it to one or more team members.
-	- The assigned team members (ticket creator included) start to work in the ticket, sending messages and attachments in it.
+	- The assigned team members (ticket creator included) start to work in the ticket, adding comments and attachments in it.
 	- Once the task is finished, one of the assigned team members closes the ticket (status CLOSED).
 - Additional features or modules required:
 	* File Attachments: files can be uploaded upon ticket creation, or comments in tickets.
