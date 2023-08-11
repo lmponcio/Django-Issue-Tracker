@@ -4,7 +4,7 @@
     
 ### Overview:
 
-This web app will allow a team to work collaboratively by providing a platform where they can track each task they are performing as a ticket (or "issue"). Team members will be able to collaborate on each ticket they are assigned to by sending messages and attachments until the task is finished and the ticket is closed.
+This web app will allow a team to work collaboratively by providing a platform where they can track each task they are performing as a ticket (or "issue"). Team members will be able to collaborate on each ticket they are assigned to by adding comments and attachments until the task is finished and the ticket is closed.
 
 ## Intended users:
 
