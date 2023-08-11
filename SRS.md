@@ -16,7 +16,7 @@ This web app will allow a team to work collaboratively by providing a platform w
 
 - **Dependencies:** Django, Bootstrap, PostgreSQL.
 - **Security and Authentication:** HTTPS; Django authentication system.
-- **External services:** SendGrid API.
+- **External services:** Gmail API.
 
 ## 2. Functional Requirements:
 
