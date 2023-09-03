@@ -14,7 +14,7 @@ This web app will allow a team to work collaboratively by providing a platform w
 	    
 ### Underlying assumptions or dependencies:
 
-- **Dependencies:** Django, Bootstrap, PostgreSQL.
+- **Dependencies:** Django, Bootstrap Template, PostgreSQL.
 - **Security and Authentication:** HTTPS; Django authentication system.
 - **External services:** Gmail API.
 
