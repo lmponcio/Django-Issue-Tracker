@@ -40,12 +40,4 @@ This web app will allow a team to work collaboratively by providing a platform w
     
 - The project is expected to be finished in one month. - *UPDATE: it was finished in one month and one week*
 - I will advance in sprints of 3 to 7 days.
-- Key milestones:
-	1. Project Setup and User Authentication.
-	2. Ticket Management.
-	4. Guest Ticket Viewing.
-	5. Ticket Responses and Updates.
-	6. Frontend Enhancements.
-	7. Testing and Quality Assurance.
-	8. Deployment and Launch.
 	9. Post-Launch Enhancements and Maintenance.
